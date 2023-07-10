@@ -3,7 +3,7 @@ const { resolve } = require("path"); // Importa o método resolve do módulo pat
 
 module.exports = {
 
-"config": resolve(__dirname, "src", "config", "dbConfig.js"), // Caminho do arquivo de configuração do banco de dados
+"config": resolve(__dirname, "src", "config", "database.config.js"), // Caminho do arquivo de configuração do banco de dados
 
 "models-path": resolve(__dirname, "src", "models"), // Caminho da pasta onde ficarão os models
 
