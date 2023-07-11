@@ -24,8 +24,26 @@
     <li>Cors</li>
 </ul>
 
+## Para rodar o projeto 
 
+<p>
+  Clonar o repositório da aplicação com o comando a seguir:
+</p>
 
+```sh
+  git clone https://github.com/AdrianoVolter/Pharmacy_Central_System_-PCS-.git
+```
+***
+
+<p>
+  Intalaçao das dependências, comando a seguir:
+</p>
+
+```sh
+  npm install
+```
+***
+# Em andamento ......
 
 ### Adriano Jose Volter
 
