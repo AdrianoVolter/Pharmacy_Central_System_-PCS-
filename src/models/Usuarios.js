@@ -59,10 +59,12 @@ const Usuario = connection.define("usuarios", {
         type: STRING,
         allowNull: false,
         unique:true,
-        validate: {
-            len:{args: [8, 100], msg: "A senha tem que ter mais de 8 caracteres !"},
-            is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/ , msg: "Error"
-          }
+        validate:{
+            len:{
+                args: [8,20],
+                msg: 'A senha deve ter entre 6 e 20 caracteres.'
+            }
+        }
       },
       status:{
         type:ENUM('Ativo', 'Inativo'),
@@ -82,7 +84,6 @@ const Usuario = connection.define("usuarios", {
       deleted_at: {
         type: DATE,
         allowNull: true,
-        defaultValue:Sequelize.literal('CURRENT_TIMESTAMP')
       }
 })
 
