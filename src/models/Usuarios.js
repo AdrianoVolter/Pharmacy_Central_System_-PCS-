@@ -60,23 +60,30 @@ const Usuario = connection.define("usuarios", {
         allowNull: false,
         unique:true,
         validate:{
-            len:{
-                args: [8,20],
-                msg: 'A senha deve ter entre 6 e 20 caracteres.'
-            }
-        }
+          isStrongPassword: {
+            args: [
+              {
+                minLength: 8,
+                minLowercase: 0,
+                minUppercase: 1,
+                minNumbers: 1,
+                minSymbols: 1,
+              },
+            ],
+            msg: 'A senha deve ter no mínimo 8 caracteres, mínimo 1 letra maiúscula, mínimo 1 número e mínimo 1 caractere especial.',
+          },
       },
       status:{
         type:ENUM('Ativo', 'Inativo'),
         allowNull:false,
         defaultValue: 'Ativo'
       },
-      created_at: {
+      createdAt: {
         type: DATE,
         allowNull: false,
         defaultValue:Sequelize.literal('CURRENT_TIMESTAMP')
       },
-      updated_at: {
+      updatedAt: {
         type: DATE,
         allowNull: false,
         defaultValue:Sequelize.literal('CURRENT_TIMESTAMP')
@@ -85,7 +92,7 @@ const Usuario = connection.define("usuarios", {
         type: DATE,
         allowNull: true,
       }
-})
+}})
 
 
 module.exports = Usuario
