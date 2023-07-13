@@ -121,5 +121,23 @@ module.exports = {
             console.error(error)
             return res.status(400).send({error: error.message})
         }
+    },
+//lista usuario pelo id
+    async listarUsuario(req, res){
+        try {
+            const {id} = req.params;
+            const usuario = await Usuario.findOne({where:{id: id}});
+           
+            usuario.senha = undefined;
+
+            if (!usuario){
+                return res.status(404).send({error: 'Usuario não encontrado!'})
+            }else{
+                return res.status(200).send({message: 'Usuario encontrado!', usuario})
+            }
+        } catch (error) {
+            console.error(error)
+            return res.status(400).send({error: error.message})
+        }
     }
 }
