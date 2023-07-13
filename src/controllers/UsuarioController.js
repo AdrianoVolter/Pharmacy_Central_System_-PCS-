@@ -19,16 +19,22 @@ module.exports = {
     async criarUsuario(req, res){
 
         try{
-            const {nome, sobrenome, genero, data_nascimento, cpf, telefone, email, senha} = req.body;
+            const {nome, sobrenome, genero, data_nascimento, cpf, telefone, email, senha, status} = req.body;
 
-            const usuario = await Usuario.create({nome, sobrenome, genero, data_nascimento, cpf, telefone, email, senha});
-    
+           
+            const usuarioExiste = await Usuario.findOne({where:{cpf: cpf}});
+            if (usuarioExiste){
+                return res.status(409).send({error: 'Usuario já existe!'})
+            }
+             const usuario = await Usuario.create({nome, sobrenome, genero, data_nascimento, cpf, telefone, email, senha, status});
             if (!usuario){
                 return res.status(400).send({error: 'Não foi possivel criar o usuario!'})
             }else{
-                return res.status(201).send({message: 'Usuario criado com sucesso!', usuario})
+                return res.send({message: 'Usuario criado com sucesso!', usuario})
+                
             }
         }catch(err){
+            console.error(err)
             return res.status(400).send({error: err.message})
         }
        

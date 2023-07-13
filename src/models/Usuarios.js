@@ -58,7 +58,6 @@ const Usuario = connection.define("usuarios", {
       senha: {
         type: STRING,
         allowNull: false,
-        unique:true,
         validate:{
           isStrongPassword: {
             args: [
@@ -72,6 +71,7 @@ const Usuario = connection.define("usuarios", {
             ],
             msg: 'A senha deve ter no mínimo 8 caracteres, mínimo 1 letra maiúscula, mínimo 1 número e mínimo 1 caractere especial.',
           },
+          
       },
       status:{
         type:ENUM('Ativo', 'Inativo'),
