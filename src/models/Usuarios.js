@@ -8,9 +8,9 @@ const Usuario = connection.define("usuarios", {
         allowNull:false,
         validator:{
            len: {
-                args: [2, 50],
+                args: [3, 50],
                 msg: 'O nome deve ter no mínimo 2 caracteres e no máximo 50 caracteres.'
-           }
+           },
         }   
       },
       sobrenome:{
@@ -18,9 +18,9 @@ const Usuario = connection.define("usuarios", {
         allowNull:false,
         validator:{
             len: {
-                args: [2, 50],
+                args: [3, 50],
                 msg: 'O sobrenome deve ter no mínimo 2 caracteres e no máximo 50 caracteres.'
-            }
+            },
          }
       },
       genero:{
@@ -43,7 +43,7 @@ const Usuario = connection.define("usuarios", {
         unique:true,
         validate:{
             len:{
-                args: [11], 
+                args: [11, 11], 
                 msg: 'O CPF deve ter o tamanho de 11 caracteres.'
             }
         }
@@ -57,7 +57,10 @@ const Usuario = connection.define("usuarios", {
         allowNull:false,
         unique:true,
         validate:{
-            isEmail: {'msg': 'E-mail invalido !'}
+            isEmail: {
+                args: true,
+                msg: 'E-mail invalido !'
+            },
         }
       },
       senha: {

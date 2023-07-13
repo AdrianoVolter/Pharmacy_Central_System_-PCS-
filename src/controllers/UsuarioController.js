@@ -1,6 +1,12 @@
 
 const  Usuario  = require('../models/Usuarios')
-const Sequelize = require('sequelize')
+const jwt = require('jsonwebtoken')
+const { config } = require('dotenv');
+//const { verify } = require('jsonwebtoken');
+
+
+config();
+
 
 module.exports = {
 
@@ -26,7 +32,14 @@ module.exports = {
             if (usuarioExiste){
                 return res.status(409).send({error: 'Usuario já existe!'})
             }
-             const usuario = await Usuario.create({nome, sobrenome, genero, data_nascimento, cpf, telefone, email, senha, status});
+            // verificar se o email já existe
+            const emailExiste = await Usuario.findOne({where:{email: email}});
+            if (emailExiste){
+                return res.status(409).send({error: 'Email já existe!'})
+            }
+            const usuario = await Usuario.create({nome, sobrenome, genero, data_nascimento, cpf, telefone, email, senha, status});
+            
+
             if (!usuario){
                 return res.status(400).send({error: 'Não foi possivel criar o usuario!'})
             }else{
@@ -38,5 +51,31 @@ module.exports = {
             return res.status(400).send({error: err.message})
         }
        
-    }
+    },
+
+    async loginUsario(req, res){
+
+        try {
+            const {email, senha} = req.body;
+            const usuario = await Usuario.findOne({where:{email: email}});
+            
+            if (!usuario){
+                return res.status(404).send({error: 'Usuario não encontrado!'})
+            }else{
+                if (usuario.senha === senha){
+                    const token = jwt.sign({id: usuario.id}, process.env.SECRET_KEY, {expiresIn: 86400});
+                    return res.status(200).send({message: 'Login realizado com sucesso!', usuario, token})
+                }else{
+                    return res.status(400).send({error: 'Senha incorreta!'})
+                }
+            }
+
+        } catch (error) {
+            //console.error(error)
+            return res.status(400).send({error: error.message})
+        }
+    },
+    //atualizar usuario pelo id metodo patch
+            
+       
 }
