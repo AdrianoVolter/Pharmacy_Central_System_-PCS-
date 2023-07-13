@@ -2,12 +2,7 @@ const {INTEGER, STRING, DATE, ENUM} = require('sequelize')
 const  connection  = require('../database/connection')
 
 const Medicamentos = connection.define('medicamentos', {
-    id:{
-        type:INTEGER,
-        primaryKey:true,
-        autoIncrement:true,
-        allowNull:false
-    },
+  
     nome_medicamento:{
         type:STRING,
         allowNull:false,

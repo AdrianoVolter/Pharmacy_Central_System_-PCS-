@@ -1,24 +1,25 @@
 const {INTEGER, STRING, DATE, ENUM} = require('sequelize')
 const  connection  = require('../database/connection')
 
-const DepositosUsuarios = connection.define('depositos_usuarios', {
+
+const MedicamentosDepositos = connection.define('medicamentos_depositos', {
+    id_medicamentos:{
+        type:INTEGER,
+        references:{
+        model:{
+            tableName:'medicamentos'
+        },
+        key:'id'
+        },
+        allowNull:false
+    },
     id_depositos:{
         type:INTEGER,
         references:{
-          model:{
+        model:{
             tableName:'depositos'
-          },
-          key:'id'
         },
-        allowNull:false
-      },
-    id_usuarios:{
-        type:INTEGER,
-        references:{
-          model:{
-            tableName:'usuarios'
-          },
-          key:'id'
+        key:'id'
         },
         allowNull:false
     },
@@ -36,4 +37,5 @@ const DepositosUsuarios = connection.define('depositos_usuarios', {
     }
 })
 
-module.exports = DepositosUsuarios;
+
+module.exports = MedicamentosDepositos;
