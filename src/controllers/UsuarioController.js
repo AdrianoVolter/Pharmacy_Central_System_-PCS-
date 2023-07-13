@@ -30,7 +30,7 @@ module.exports = {
             if (!usuario){
                 return res.status(400).send({error: 'Não foi possivel criar o usuario!'})
             }else{
-                return res.send({message: 'Usuario criado com sucesso!', usuario})
+                return res.status(201).send({message: 'Usuario criado com sucesso!', usuario})
                 
             }
         }catch(err){

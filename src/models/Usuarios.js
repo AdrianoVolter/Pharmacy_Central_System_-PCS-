@@ -7,15 +7,20 @@ const Usuario = connection.define("usuarios", {
         type:STRING,
         allowNull:false,
         validator:{
-           length: [2,20] 
-        }
-            
+           len: {
+                args: [2, 50],
+                msg: 'O nome deve ter no mínimo 2 caracteres e no máximo 50 caracteres.'
+           }
+        }   
       },
       sobrenome:{
         type:STRING,
         allowNull:false,
         validator:{
-            length: [2,20] 
+            len: {
+                args: [2, 50],
+                msg: 'O sobrenome deve ter no mínimo 2 caracteres e no máximo 50 caracteres.'
+            }
          }
       },
       genero:{
@@ -71,7 +76,7 @@ const Usuario = connection.define("usuarios", {
             ],
             msg: 'A senha deve ter no mínimo 8 caracteres, mínimo 1 letra maiúscula, mínimo 1 número e mínimo 1 caractere especial.',
           },
-          
+
       },
       status:{
         type:ENUM('Ativo', 'Inativo'),
