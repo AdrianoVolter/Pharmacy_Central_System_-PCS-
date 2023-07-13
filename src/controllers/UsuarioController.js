@@ -7,13 +7,14 @@ const { config } = require('dotenv');
 
 config();
 
-
 module.exports = {
 
-    
-
     async listarUsuarios(req, res) {
-        const usuarios  = await Usuario.findAll();
+        const usuarios  = await Usuario.findAll(
+            {
+                attributes: ['id', 'nome', 'sobrenome', 'genero', 'data_nascimento', 'cpf', 'telefone', 'email', 'status', 'createdAt', 'updatedAt']
+            }
+        );
 
         if (!usuarios){
             return res.status(400).send({error: 'Não encontro a lista de usuarios!'})

@@ -17,10 +17,8 @@ const Usuario = connection.define("usuarios", {
         type:STRING,
         allowNull:false,
         validator:{
-            len: {
-                args: [3, 50],
-                msg: 'O sobrenome deve ter no mínimo 2 caracteres e no máximo 50 caracteres.'
-            },
+            len: [3, 50],
+            msg: 'O sobrenome deve ter no mínimo 2 caracteres e no máximo 50 caracteres.' 
          }
       },
       genero:{
