@@ -80,6 +80,23 @@ module.exports = {
         }
     },
     //atualizar usuario pelo id metodo patch
-            
+    async atualizarUsuario(req, res){
+        try {
+            const {id} = req.params;
+            const {nome, sobrenome, genero,telefone} = req.body;
+            const usuario = await Usuario.findOne({where:{id: id}});
+            if (!usuario){
+                return res.status(404).send({error: 'Usuario não encontrado!'})
+            }else{
+                await Usuario.update(
+                    {nome, sobrenome, genero, telefone}, 
+                    {where:{id: id}});
+                return res.status(204).send({message: 'Usuario atualizado com sucesso!'})
+            }
+        } catch (error) {
+            console.error(error)
+            return res.status(400).send({error: error.message})
+        }
+    }
        
 }
