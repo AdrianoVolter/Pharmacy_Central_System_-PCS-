@@ -128,16 +128,18 @@ module.exports = {
             const {id} = req.params;
             const usuario = await Usuario.findOne({where:{id: id}});
            
-            usuario.senha = undefined;
-
             if (!usuario){
-                return res.status(404).send({error: 'Usuario não encontrado!'})
+                return res.status(404).send({error: 'Usuario não encontrado ou não existe! '})
             }else{
+                usuario.senha = undefined;
                 return res.status(200).send({message: 'Usuario encontrado!', usuario})
             }
         } catch (error) {
             console.error(error)
-            return res.status(400).send({error: error.message})
+            return res.status(400).send({
+                error: error.message,
+                cause: error.parent
+            })
         }
     }
 }
