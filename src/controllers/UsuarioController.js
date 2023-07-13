@@ -8,7 +8,7 @@ const { config } = require('dotenv');
 config();
 
 module.exports = {
-
+// listar todos os usuarios
     async listarUsuarios(req, res) {
         const usuarios  = await Usuario.findAll(
             {
@@ -22,7 +22,7 @@ module.exports = {
             return res.send({message: 'Lista de Usuarios', usuarios})
         }
     },
-
+//criar usuario
     async criarUsuario(req, res){
 
         try{
@@ -56,7 +56,7 @@ module.exports = {
         }
        
     },
-
+//Login do usuario
     async loginUsario(req, res){
 
         try {
@@ -79,7 +79,7 @@ module.exports = {
             return res.status(400).send({error: error.message})
         }
     },
-    //atualizar usuario pelo id metodo patch
+//atualizar usuario pelo id metodo patch
     async atualizarUsuario(req, res){
         try {
             const {id} = req.params;
@@ -97,6 +97,29 @@ module.exports = {
             console.error(error)
             return res.status(400).send({error: error.message})
         }
+    },
+//atualizar status do usuario pelo id
+    async atualizarStatusUsuario(req, res){
+        try {
+            const {id} = req.params;
+            const {status} = req.body;
+
+            if (status !== 'Ativo' && status !== 'Inativo'){ //verificar se o status é Ativo ou Inativo
+                return res.status(400).send({error: 'Status deve ser Ativo ou Inativo!'})
+            }
+            const usuario = await Usuario.findOne({where:{id: id}});
+            if (!usuario){
+                return res.status(404).send({error: 'Usuario não encontrado!'})
+            }else{
+                await Usuario.update(
+                    {status}, 
+                    {where:{id: id}});
+                return res.status(200).send({message: 'Status do usuario atualizado com sucesso!', 
+                usuario: {id, status}}) 
+            }
+        } catch (error) {
+            console.error(error)
+            return res.status(400).send({error: error.message})
+        }
     }
-       
 }

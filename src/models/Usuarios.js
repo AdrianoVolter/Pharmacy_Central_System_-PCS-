@@ -82,7 +82,7 @@ const Usuario = connection.define("usuarios", {
       status:{
         type:ENUM('Ativo', 'Inativo'),
         allowNull:false,
-        defaultValue: 'Ativo'
+        defaultValue: 'Ativo',
       },
       createdAt: {
         type: DATE,

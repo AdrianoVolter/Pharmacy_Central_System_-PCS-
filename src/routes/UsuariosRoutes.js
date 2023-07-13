@@ -8,6 +8,7 @@ routes.get('/usuarios', UsuarioConroller.listarUsuarios)
 routes.post('/usuarios', UsuarioConroller.criarUsuario)
 routes.post('/usuarios/login', UsuarioConroller.loginUsario)
 routes.patch('/usuarios/:id', auth , UsuarioConroller.atualizarUsuario)
+routes.patch('/usuarios/:id/status', auth , UsuarioConroller.atualizarStatusUsuario)
 
 
 module.exports= routes
