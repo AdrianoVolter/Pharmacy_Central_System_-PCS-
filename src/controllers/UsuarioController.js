@@ -12,7 +12,7 @@ module.exports = {
     async listarUsuarios(req, res) {
         const usuarios  = await Usuario.findAll(
             {
-                attributes: ['id', 'nome', 'sobrenome', 'genero', 'data_nascimento', 'cpf', 'telefone', 'email', 'status', 'createdAt', 'updatedAt']
+                attributes: ['id', 'nome', 'sobrenome', 'genero', 'data_nascimento', 'cpf', 'telefone', 'email','senha', 'status', 'createdAt', 'updatedAt']
             }
         );
 
@@ -38,9 +38,12 @@ module.exports = {
             if (emailExiste){
                 return res.status(409).send({error: 'Email já existe!'})
             }
+           
+            if (nome.length < 3 || sobrenome.length < 3){
+                return res.status(400).send({error: 'O nome e o sobrenome devem ter no mínimo 3 caracteres!'})
+            }
             const usuario = await Usuario.create({nome, sobrenome, genero, data_nascimento, cpf, telefone, email, senha, status});
             
-
             if (!usuario){
                 return res.status(400).send({error: 'Não foi possivel criar o usuario!'})
             }else{
