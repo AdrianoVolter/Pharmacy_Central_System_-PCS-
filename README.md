@@ -2,8 +2,17 @@
 ***
 ## Gerenciamento de depósitos e medicamentos Projeto avaliativo , modulo 2 back-end 
 
-### Tecnologias utilizadas
 
+<p>
+  Essa projeto tem como objetivo criar o backend do sistema Pharmacy Central System, a API Pharmacy Central System (PCS), para gerenciar usuários, depósitos e medicamentos , recebendo dados de requisição e inserindo-os no banco de dados postgres com nome de pcsbd e retornando dados necessários. 
+  Nessa API podemos:
+   <li>Cadastar usuários, fazer login, alterar dados. 
+   <li>Cadastrar depósitos alterar dados , listar depósitos, deletar depósitos.
+   <li>Cadastrar medicamentos , listar , deletar .
+</p>
+
+
+### Tecnologias utilizadas
 
 <p align="">
   <a href="https://skillicons.dev">
@@ -14,15 +23,18 @@
 ***
 ### Dependências usando Npm
 <ul>
-    <li>Express</li>
-    <li>Nodemon</li>
-    <li>Sequelize</li>
-    <li>Sequelize-cli</li>
+    <li>express</li>
+    <li>nodemon</li>
+    <li>sequelize</li>
+    <li>sequelize-cli</li>
     <li>pg</li>
-    <li>Dotenv</li>
-    <li>Pg-connection-string</li>
-    <li>Cors</li>
+    <li>dotenv</li>
+    <li>pg-connection-string</li>
+    <li>cors</li>
+    <li>jsonwebtoken</li>
 </ul>
+
+
 
 ## Para rodar o projeto 
 
@@ -43,6 +55,12 @@
   npm install
 ```
 ***
+
+### Para instalar as dependêcias necessarias, use o comando :
+
+```
+npm install <nome_da_dependeicia>
+```
 # Em andamento ......
 
 ### Adriano Jose Volter
