@@ -91,7 +91,8 @@ module.exports = {
                 await Usuario.update(
                     {nome, sobrenome, genero, telefone}, 
                     {where:{id: id}});
-                return res.status(204).send({message: 'Usuario atualizado com sucesso!'})
+                return res.status(200).send({message: 'Usuario atualizado com sucesso!',
+                    usuario: {id, nome, sobrenome, genero, telefone}}) //codigo 200 = ok , 204 não tem conteudo
             }
         } catch (error) {
             console.error(error)
