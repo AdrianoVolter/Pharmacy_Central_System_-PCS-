@@ -9,7 +9,7 @@ module.exports = {
         try {
 
             const userId = req.usuario.id; // id do usuario logado
-            
+            const usuario = req.usuario.nome;// dados do usuario logado
             const {
                 razao_social,
                 cnpj,
@@ -36,7 +36,7 @@ module.exports = {
             }});
 
             if (depositoExiste){
-                return res.status(409).send({error: 'O deposito Ja existe!'})
+                return res.status(409).send({error: 'O deposito Ja existe!', CNPJ: cnpj, razao_social})
             }
 
             const emailExiste = await Depositos.findOne({where:{email: email}});
@@ -69,7 +69,7 @@ module.exports = {
             if (!deposito){
                 return res.status(400).send({error: 'Não foi possivel criar o depósito!'})
             }else{
-                return res.status(201).send({Identificador: deposito.id, razao_social:deposito.razao_social, deposito })
+                return res.status(201).send({Identificador: deposito.id, razao_social:deposito.razao_social, Usuario: usuario, deposito })
                 
             }
 
