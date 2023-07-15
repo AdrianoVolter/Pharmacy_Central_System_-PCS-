@@ -66,8 +66,13 @@ module.exports = {
             if (!usuario){
                 return res.status(404).send({error: 'Usuario não encontrado!'})
             }else{
+                const payload = {
+                    id: usuario.id,
+                    nome: usuario.nome,
+                    email: usuario.email
+                }
                 if (usuario.senha === senha){
-                    const token = jwt.sign({id: usuario.id}, process.env.SECRET_KEY, {expiresIn: 86400});
+                    const token = jwt.sign( payload, process.env.SECRET_KEY, {expiresIn: 86400});
                     return res.status(200).send({message: 'Login realizado com sucesso!', usuario, token})
                 }else{
                     return res.status(400).send({error: 'Senha incorreta!'})

@@ -1,11 +1,15 @@
 const Depositos = require('../models/Depositos')
 
+const DepositosUsuarios = require('../models/DepositosUsuarios')
+
 module.exports = {
 
     async criarDeposito(req, res) {
 
         try {
 
+            const userId = req.usuario.id; // id do usuario logado
+            
             const {
                 razao_social,
                 cnpj,
@@ -57,10 +61,13 @@ module.exports = {
                 latitude, 
                 longitude,
                 status})
+                console.log(deposito)
+            await DepositosUsuarios.create({id_depositos: deposito.id, id_usuarios: userId})
+
             if (!deposito){
                 return res.status(400).send({error: 'Não foi possivel criar o depósito!'})
             }else{
-                return res.status(201).send({Identificador: id, razaoSocial: razao_social, ...req.body})
+                return res.status(201).send({Identificador: deposito.id, razao_social:deposito.razao_social, deposito })
                 
             }
 
@@ -73,4 +80,5 @@ module.exports = {
         }
 
     }
+   
 }

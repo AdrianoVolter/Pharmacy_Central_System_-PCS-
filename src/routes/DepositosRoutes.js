@@ -1,9 +1,9 @@
 const express = require('express');
 const routes = express.Router();
 const DepositoController = require('../controllers/DepositoController')
-const {auth} = require('../middleware/auth')
+const {validarToken} = require('../middleware/auth')
 
 
-routes.post('/depositos', auth , DepositoController.criarDeposito)
+routes.post('/depositos', validarToken , DepositoController.criarDeposito)
 
 module.exports = routes
