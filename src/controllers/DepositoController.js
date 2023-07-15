@@ -35,8 +35,31 @@ module.exports = {
                 razao_social: razao_social
             }});
 
+            // if (depositoExiste){
+            //     return res.status(409).send({error: 'O deposito Ja existe!', CNPJ: cnpj, razao_social})
+            // }
+
             if (depositoExiste){
-                return res.status(409).send({error: 'O deposito Ja existe!', CNPJ: cnpj, razao_social})
+                const depositoUsuarioExiste = await DepositosUsuarios.findOne({where:{
+                    id_depositos: depositoExiste.id,
+                    id_usuarios: userId
+                }});
+                if (depositoUsuarioExiste){
+                    return res.status(409).send({error: 'O deposito Ja existe!', CNPJ: cnpj, razao_social})
+                }else{
+
+                await DepositosUsuarios.create({
+                    id_depositos: depositoExiste.id,
+                    id_usuarios: userId
+                  });
+          
+                  return res.status(201).send({
+                    Identificador: depositoExiste.id,
+                    razao_social: depositoExiste.razao_social,
+                    Usuario: usuario,
+                    deposito: depositoExiste
+                  });
+                }
             }
 
             const emailExiste = await Depositos.findOne({where:{email: email}});
