@@ -46,10 +46,24 @@ const Deposito = connection.define('depositos', {
       telefone:{
         type:STRING,
         allowNull:true,
+        validate:{
+            len:{
+                args: [10, 11],
+                msg: 'O telefone deve ter no mínimo 10 caracteres e no máximo 11 caracteres.'
+            }
+        }
       },
       celular:{
         type:STRING,
-        allowNull:false
+        allowNull:false,
+        validate:{
+            len:{
+
+                args: [11], 
+                msg: 'O celular deve ter o tamanho de 11 caracteres.'
+            }
+        }
+        
       },
       cep:{
         type:STRING,
@@ -65,11 +79,23 @@ const Deposito = connection.define('depositos', {
       logradouro: {
         type:STRING,
         allowNull: false,
-        unique:true
+        unique:true,
+        validate:{
+            len:{
+                args: [3, 50],
+                msg: 'O logradouro deve ter no mínimo 3 caracteres e no máximo 50 caracteres.'
+            }
+        }
       },
       numero:{
         type:STRING,
-        allowNull:false
+        allowNull:false,
+        validate:{
+            len:{
+                args: [1, 10],
+                msg: 'O numero deve ter no mínimo 1 caracteres e no máximo 10 caracteres.'
+            }
+        }
       },
       bairro:{
         type:STRING,

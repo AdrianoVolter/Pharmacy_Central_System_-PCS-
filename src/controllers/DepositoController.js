@@ -142,7 +142,6 @@ module.exports = {
                     attributes: ['id', 'nome']
                 }
             });
-    
 
             if (!depositos){
                 return res.status(404).send({error: 'Não existe nenhum depósito cadastrado!'})
