@@ -136,11 +136,18 @@ module.exports = {
 
     async listarDepositos(req, res){
         try {
-            const depositos = await Depositos.findAll();
+            const depositos = await Depositos.findAll({
+                include: {
+                    association: 'usuarios',
+                    attributes: ['id', 'nome']
+                }
+            });
+    
+
             if (!depositos){
                 return res.status(404).send({error: 'Não existe nenhum depósito cadastrado!'})
             }else{
-                return res.status(200).send({message: 'Depósitos encontrados!', depositos , usuario: req.usuario.nome})
+                return res.status(200).send({message: 'Depósitos encontrados!', depositos })
             }
         } catch (error) {
             console.error(error)
