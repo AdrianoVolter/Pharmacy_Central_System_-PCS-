@@ -10,7 +10,7 @@ routes.post('/usuarios/login', UsuarioConroller.loginUsario)
 routes.patch('/usuarios/:id', validarToken, UsuarioConroller.atualizarUsuario)
 routes.patch('/usuarios/:id/status', validarToken , UsuarioConroller.atualizarStatusUsuario)
 routes.get('/usuarios/:id', auth , UsuarioConroller.listarUsuario)
-routes.patch('/usuarios/:id/senha', auth , UsuarioConroller.atualizarSenhaUsuario)
+routes.patch('/usuarios/:id/senha', validarToken , UsuarioConroller.atualizarSenhaUsuario)
 
 
 module.exports= routes

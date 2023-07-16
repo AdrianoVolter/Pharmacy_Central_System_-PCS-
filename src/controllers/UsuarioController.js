@@ -123,7 +123,6 @@ module.exports = {
                 return res.status(400).send({error: 'Status deve ser Ativo ou Inativo!'})
             }
             const usuario = await Usuario.findOne({where:{id: id}});
-            
             if (Number(id) !== Number(req.usuario.id)) {
                 return res.status(403).send({ error: 'Acesso negado! Você só pode atualizar seus próprios dados.' });
               }
@@ -167,6 +166,9 @@ module.exports = {
             const {id} = req.params;
             const {senha} = req.body;
             const usuario = await Usuario.findOne({where:{id: id}});
+            if (Number(id) !== Number(req.usuario.id)) {
+                return res.status(403).send({ error: 'Acesso negado! Você só pode atualizar seus próprios dados.' });
+                }
             if (!usuario){
                 return res.status(404).send({error: 'Usuario não encontrado!'})
             }else{
