@@ -128,7 +128,7 @@ module.exports = {
                 return res.status(204).send({message: 'Depósito atualizado com sucesso!', deposito: {id, nome_fantasia, email, telefone, celular, cep, logradouro, numero, bairro, cidade, estado, complemento, latitude, longitude}}) 
             }
         } catch (error) {
-            console.error(error)
+            // console.error(error)
             return res.status(400).send({error: error.message})
        
         }
@@ -158,6 +158,7 @@ module.exports = {
         try {
             const {id} = req.params;
             const {status} = req.body;
+
             const depositoUsuario = await DepositosUsuarios.findOne({where:{id_depositos: id, id_usuarios: req.usuario.id}});
             if (!depositoUsuario){
                 return res.status(403).send({ error: 'Acesso negado!\n Você só pode atualizar dados de depósitos que você é usuário.' });
