@@ -104,6 +104,48 @@ module.exports = {
             })
         }
 
+    },
+
+    async atualizarDeposito(req, res){
+        try {
+            const {id} = req.params;
+            const {nome_fantasia, email, telefone, celular, cep, logradouro, numero, bairro, cidade, estado, complemento, latitude, longitude} = req.body;
+            if (nome_fantasia.length < 3){
+                return res.status(400).send({error: 'O nome fantasia deve ter no mínimo 3 caracteres!'})
+                 }
+                const depositoUsuario = await DepositosUsuarios.findOne({where:{id_depositos: id, id_usuarios: req.usuario.id}});
+                if (!depositoUsuario){
+                    return res.status(403).send({ error: 'Acesso negado!\n Você só pode atualizar dados de depósitos que você é usuário.' });
+                }
+                const deposito = await Depositos.findOne({where:{id: id}});
+
+            if (!deposito){
+                return res.status(404).send({error: 'Depósito não encontrado!'})
+            }else{
+                await Depositos.update(
+                    {nome_fantasia, email, telefone, celular, cep, logradouro, numero, bairro, cidade, estado, complemento, latitude, longitude}, 
+                    {where:{id: id}});
+                return res.status(200).send({message: 'Depósito atualizado com sucesso!', deposito: {id, nome_fantasia, email, telefone, celular, cep, logradouro, numero, bairro, cidade, estado, complemento, latitude, longitude}}) 
+            }
+        } catch (error) {
+            console.error(error)
+            return res.status(400).send({error: error.message})
+       
+        }
+    },
+
+    async listarDepositos(req, res){
+        try {
+            const depositos = await Depositos.findAll();
+            if (!depositos){
+                return res.status(404).send({error: 'Não existe nenhum depósito cadastrado!'})
+            }else{
+                return res.status(200).send({message: 'Depósitos encontrados!', depositos , usuario: req.usuario.nome})
+            }
+        } catch (error) {
+            console.error(error)
+            return res.status(400).send({error: error.message})
+        }
     }
    
 }
