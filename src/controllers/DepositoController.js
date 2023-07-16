@@ -1,9 +1,11 @@
+const e = require('express');
 const Depositos = require('../models/Depositos')
 
 const DepositosUsuarios = require('../models/DepositosUsuarios')
 
 module.exports = {
 
+    //criar deposito
     async criarDeposito(req, res) {
 
         try {
@@ -105,7 +107,7 @@ module.exports = {
         }
 
     },
-
+//atualizar deposito pelo id
     async atualizarDeposito(req, res){
         try {
             const {id} = req.params;
@@ -133,27 +135,7 @@ module.exports = {
        
         }
     },
-
-    async listarDepositos(req, res){
-        try {
-            const depositos = await Depositos.findAll({
-                include: {
-                    association: 'usuarios',
-                    attributes: ['id', 'nome']
-                }
-            });
-
-            if (!depositos){
-                return res.status(404).send({error: 'Não existe nenhum depósito cadastrado!'})
-            }else{
-                return res.status(200).send({message: 'Depósitos encontrados!', depositos })
-            }
-        } catch (error) {
-            console.error(error)
-            return res.status(400).send({error: error.message})
-        }
-    },
-
+//atualizar status do deposito pelo id
    async atualizarStatusDeposito(req, res){
         try {
             const {id} = req.params;
@@ -181,5 +163,38 @@ module.exports = {
             console.error(error)
             return res.status(400).send({error: error.message})
         }
+    },
+    // Listagem de Depósitos
+ 
+    async listarDepositos(req, res){
+        try {
+            const {status} = req.query;
+            // verifica se o status foi passado na query
+            if (req.query.status === undefined){
+                const depositos = await Depositos.findAll();
+                if (!depositos){
+                    return res.status(404).send({error: 'Depósitos não encontrados!'})
+                }else{
+                    return res.status(200).send({message: 'Depósitos encontrados!', depositos})
+                }
+            }
+            
+            if (status !== 'Ativo' && status !== 'Inativo'){ //verificar se o status é Ativo ou Inativo
+                return res.status(400).send({error: 'Status deve ser Ativo ou Inativo!'})
+            } else{
+                const depositos = await Depositos.findAll({where:{status: status}});
+                if (!depositos){
+                    return res.status(404).send({error: 'Depósitos não encontrados!'})
+                }else{
+                    return res.status(200).send({message: 'Depósitos encontrados!', depositos})
+                }
+            }
+
+        } catch (error) {
+            console.error(error)
+            return res.status(400).send({error: error.message})
+        }
     }
+
+    
 }
