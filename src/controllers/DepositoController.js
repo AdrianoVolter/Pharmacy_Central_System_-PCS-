@@ -171,18 +171,68 @@ module.exports = {
             const {status} = req.query;
             // verifica se o status foi passado na query
             if (req.query.status === undefined){
-                const depositos = await Depositos.findAll();
+                const depositos = await Depositos.findAll({
+                    attributes: [
+                        'id',
+                        'razao_social',
+                        'cnpj',
+                        'nome_fantasia',
+                        'email',
+                        'telefone',
+                        'celular',
+                        'cep',
+                        'logradouro',
+                        'numero',
+                        'bairro',
+                        'cidade',
+                        'estado',
+                        'status'],
+                  
+                    include: [{
+                        association: 'usuarios',
+                        attributes: ['id', 'nome','status'],
+                        through: {
+                            attributes: []
+                        }
+                    }]
+                });
                 if (!depositos){
                     return res.status(404).send({error: 'Depósitos não encontrados!'})
                 }else{
-                    return res.status(200).send({message: 'Depósitos encontrados!', depositos})
+                    //somente nome fantasia e id status
+                    return res.status(200).send({message: 'Depósitos encontrados!', 
+                    depositos})
                 }
             }
             
             if (status !== 'Ativo' && status !== 'Inativo'){ //verificar se o status é Ativo ou Inativo
                 return res.status(400).send({error: 'Status deve ser Ativo ou Inativo!'})
             } else{
-                const depositos = await Depositos.findAll({where:{status: status}});
+                const depositos = await Depositos.findAll({
+                    attributes: [
+                        'id',
+                        'razao_social',
+                        'cnpj',
+                        'nome_fantasia',
+                        'email',
+                        'telefone',
+                        'celular',
+                        'cep',
+                        'logradouro',
+                        'numero',
+                        'bairro',
+                        'cidade',
+                        'estado',
+                        'status'],
+                    where:{status: status },
+                    include: [{
+                        association: 'usuarios',
+                        attributes: ['id', 'nome','status'],
+                        through: {
+                            attributes: []
+                        }
+                    }]
+                });
                 if (!depositos){
                     return res.status(404).send({error: 'Depósitos não encontrados!'})
                 }else{
