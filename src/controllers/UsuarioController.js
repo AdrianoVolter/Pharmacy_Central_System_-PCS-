@@ -119,11 +119,14 @@ module.exports = {
             const {id} = req.params;
             const {status} = req.body;
             
-
             if (status !== 'Ativo' && status !== 'Inativo'){ //verificar se o status é Ativo ou Inativo
                 return res.status(400).send({error: 'Status deve ser Ativo ou Inativo!'})
             }
             const usuario = await Usuario.findOne({where:{id: id}});
+            
+            if (Number(id) !== Number(req.usuario.id)) {
+                return res.status(403).send({ error: 'Acesso negado! Você só pode atualizar seus próprios dados.' });
+              }
             if (!usuario){
                 return res.status(404).send({error: 'Usuario não encontrado!'})
             }else{
