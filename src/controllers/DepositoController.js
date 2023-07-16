@@ -125,7 +125,7 @@ module.exports = {
                 await Depositos.update(
                     {nome_fantasia, email, telefone, celular, cep, logradouro, numero, bairro, cidade, estado, complemento, latitude, longitude}, 
                     {where:{id: id}});
-                return res.status(200).send({message: 'Depósito atualizado com sucesso!', deposito: {id, nome_fantasia, email, telefone, celular, cep, logradouro, numero, bairro, cidade, estado, complemento, latitude, longitude}}) 
+                return res.status(204).send({message: 'Depósito atualizado com sucesso!', deposito: {id, nome_fantasia, email, telefone, celular, cep, logradouro, numero, bairro, cidade, estado, complemento, latitude, longitude}}) 
             }
         } catch (error) {
             console.error(error)
@@ -152,6 +152,33 @@ module.exports = {
             console.error(error)
             return res.status(400).send({error: error.message})
         }
+    },
+
+   async atualizarStatusDeposito(req, res){
+        try {
+            const {id} = req.params;
+            const {status} = req.body;
+            const depositoUsuario = await DepositosUsuarios.findOne({where:{id_depositos: id, id_usuarios: req.usuario.id}});
+            if (!depositoUsuario){
+                return res.status(403).send({ error: 'Acesso negado!\n Você só pode atualizar dados de depósitos que você é usuário.' });
+            }
+            if (status !== 'Ativo' && status !== 'Inativo'){ //verificar se o status é Ativo ou Inativo
+                return res.status(400).send({error: 'Status deve ser Ativo ou Inativo!'})
+            }
+            const deposito = await Depositos.findOne({where:{id: id}});
+
+            if (!deposito){
+                return res.status(404).send({error: 'Depósito não encontrado!'})
+            }else{
+                await Depositos.update(
+                    {status}, 
+                    {where:{id: id}});
+                return res.status(204).send({message: 'Status do depósito atualizado com sucesso!', 
+                deposito: {id, status}}) 
+            }
+        } catch (error) {
+            console.error(error)
+            return res.status(400).send({error: error.message})
+        }
     }
-   
 }
