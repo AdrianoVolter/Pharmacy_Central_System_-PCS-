@@ -8,27 +8,11 @@ const { config } = require('dotenv');
 config();
 
 module.exports = {
-// listar todos os usuarios
-    async listarUsuarios(req, res) {
-        const usuarios  = await Usuario.findAll(
-            {
-                attributes: ['id', 'nome', 'sobrenome', 'genero', 'data_nascimento', 'cpf', 'telefone', 'email','senha', 'status', 'createdAt', 'updatedAt']
-            }
-        );
-
-        if (!usuarios){
-            return res.status(400).send({error: 'Não encontro a lista de usuarios!'})
-        }else{
-            return res.send({message: 'Lista de Usuarios', usuarios})
-        }
-    },
 //criar usuario
     async criarUsuario(req, res){
-
         try{
             const {nome, sobrenome, genero, data_nascimento, cpf, telefone, email, senha, status} = req.body;
             
-           
             const usuarioExiste = await Usuario.findOne({where:{cpf: cpf}});
             if (usuarioExiste){
                 return res.status(409).send({error: 'Usuario já existe!'})
@@ -123,6 +107,8 @@ module.exports = {
                 return res.status(400).send({error: 'Status deve ser Ativo ou Inativo!'})
             }
             const usuario = await Usuario.findOne({where:{id: id}});
+
+            //verificar se o usuario esta atualizando o seu proprio usuario
             if (Number(id) !== Number(req.usuario.id)) {
                 return res.status(403).send({ error: 'Acesso negado! Você só pode atualizar seus próprios dados.' });
               }
@@ -166,6 +152,8 @@ module.exports = {
             const {id} = req.params;
             const {senha} = req.body;
             const usuario = await Usuario.findOne({where:{id: id}});
+
+            //verificar se o usuario esta atualizando o seu proprio usuario
             if (Number(id) !== Number(req.usuario.id)) {
                 return res.status(403).send({ error: 'Acesso negado! Você só pode atualizar seus próprios dados.' });
                 }

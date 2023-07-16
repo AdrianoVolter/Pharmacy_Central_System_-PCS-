@@ -4,7 +4,7 @@ const UsuarioConroller = require('../controllers/UsuarioController')
 const {auth, validarToken} = require('../middleware/auth')
 
 
-routes.get('/usuarios', UsuarioConroller.listarUsuarios)
+//routes.get('/usuarios', UsuarioConroller.listarUsuarios)
 routes.post('/usuarios', UsuarioConroller.criarUsuario)
 routes.post('/usuarios/login', UsuarioConroller.loginUsario)
 routes.patch('/usuarios/:id', validarToken, UsuarioConroller.atualizarUsuario)
