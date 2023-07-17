@@ -302,10 +302,13 @@ module.exports = {
             }else{
                 if (deposito.status === 'Ativo'){
                     return res.status(400).send({error: 'Não é possível excluir um depósito ativo!'})
-                }else{
-                    await Depositos.destroy({where:{id: id}});
-                    return res.status(204).send({message: 'Depósito excluído com sucesso!'})
-                }
+            }
+            await Depositos.destroy({
+                force: false,
+                where: {id: id}
+            });
+            return res.status(204).send({message: 'Depósito excluído com sucesso!'})
+                
             }
         } catch (error) {
             console.error(error)

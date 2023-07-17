@@ -161,7 +161,11 @@ const Deposito = connection.define('depositos', {
       deleted_at: {
         type:DATE,
         allowNull: true
-      },
-})
+      }
+
+
+}, {
+    paranoid: true,
+ } )
 
 module.exports = Deposito
