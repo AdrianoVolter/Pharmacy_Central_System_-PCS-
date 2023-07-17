@@ -36,7 +36,10 @@ const DepositosUsuarios = connection.define('depositos_usuarios', {
         type: DATE,
         allowNull: true,
     }
-})
+}, {
+    paranoid: true,
+  }
+)
 
   Usuarios.belongsToMany(Depositos, { through: DepositosUsuarios, foreignKey: 'id_usuarios' })
   Depositos.belongsToMany(Usuarios, { through: DepositosUsuarios, foreignKey: 'id_depositos' })

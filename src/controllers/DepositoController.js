@@ -1,7 +1,6 @@
-const e = require('express');
 const Depositos = require('../models/Depositos')
-
-const DepositosUsuarios = require('../models/DepositosUsuarios')
+const DepositosUsuarios = require('../models/DepositosUsuarios');
+const {sequelize} = require('sequelize');
 
 module.exports = {
 
@@ -303,10 +302,17 @@ module.exports = {
                 if (deposito.status === 'Ativo'){
                     return res.status(400).send({error: 'Não é possível excluir um depósito ativo!'})
             }
+
             await Depositos.destroy({
                 force: false,
-                where: {id: id}
+                where:{id: id}
             });
+
+            await DepositosUsuarios.destroy({
+                force: false,
+                where:{id_depositos: id}
+            });
+
             return res.status(204).send({message: 'Depósito excluído com sucesso!'})
                 
             }
