@@ -290,7 +290,27 @@ module.exports = {
             console.error(error)
             return res.status(400).send({error: error.message})
         }
-    }
+    },
 
+    //excluir deposito pelo id
+    async excluirDeposito(req, res){
+        try {
+            const {id} = req.params;
+            const deposito = await Depositos.findOne({where:{id: id}});
+            if (!deposito){
+                return res.status(404).send({error: 'Depósito não encontrado!'})
+            }else{
+                if (deposito.status === 'Ativo'){
+                    return res.status(400).send({error: 'Não é possível excluir um depósito ativo!'})
+                }else{
+                    await Depositos.destroy({where:{id: id}});
+                    return res.status(204).send({message: 'Depósito excluído com sucesso!'})
+                }
+            }
+        } catch (error) {
+            console.error(error)
+            return res.status(400).send({error: error.message})
+        }
+    }
     
 }
