@@ -7,5 +7,6 @@ routes.get('/depositos',validarToken, DepositoController.listarDepositos) //list
 routes.post('/depositos', validarToken , DepositoController.criarDeposito)
 routes.patch('/depositos/:id', validarToken , DepositoController.atualizarDeposito)
 routes.patch('/depositos/:id/status', validarToken , DepositoController.atualizarStatusDeposito)
+routes.get('/depositos/:id', validarToken , DepositoController.listarDepositoId)
 
 module.exports = routes

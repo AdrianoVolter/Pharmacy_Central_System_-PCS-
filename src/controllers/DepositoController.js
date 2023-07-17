@@ -244,6 +244,52 @@ module.exports = {
             console.error(error)
             return res.status(400).send({error: error.message})
         }
+    },
+   
+//lista deposito pelo id
+    async listarDepositoId(req, res){
+        try {
+            const {id} = req.params;
+            const deposito = await Depositos.findOne({where:{id: id},
+                attributes: [
+                    'id',
+                    'razao_social',
+                    'cnpj',
+                    'nome_fantasia',
+                    'email',
+                    'telefone',
+                    'celular',
+                    'cep',
+                    'logradouro',
+                    'numero',
+                    'bairro',
+                    'cidade',
+                    'estado',
+                    'latitude',
+                    'longitude',
+                    'complemento',
+                    'status',
+                    'createdAt',
+                    'updatedAt'
+
+                ],
+                include: [{
+                    association: 'usuarios',
+                    attributes: ['id', 'nome','status'],
+                    through: {
+                        attributes: []
+                    }
+                }]
+            });
+            if (!deposito){
+                return res.status(404).send({error: 'Depósito não encontrado!'})
+            }else{
+                return res.status(200).send({message: 'Depósito encontrado!', deposito})
+            }
+        } catch (error) {
+            console.error(error)
+            return res.status(400).send({error: error.message})
+        }
     }
 
     
