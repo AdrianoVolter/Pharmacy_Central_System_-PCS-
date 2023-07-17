@@ -89,6 +89,9 @@ const Medicamentos = connection.define('medicamentos', {
         type: DATE,
         allowNull: true
       }
+},
+{
+    paranoid: true,
 });
 
 module.exports = Medicamentos;

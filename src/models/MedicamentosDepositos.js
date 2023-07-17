@@ -1,5 +1,7 @@
 const {INTEGER, STRING, DATE, ENUM} = require('sequelize')
 const  connection  = require('../database/connection')
+const Medicamentos = require('./Medicamentos')
+const Depositos = require('./Depositos')
 
 
 const MedicamentosDepositos = connection.define('medicamentos_depositos', {
@@ -36,6 +38,8 @@ const MedicamentosDepositos = connection.define('medicamentos_depositos', {
         allowNull: true,
     }
 })
-
+ 
+Medicamentos.belongsToMany(Depositos, { through: MedicamentosDepositos, foreignKey: 'id_medicamentos' })
+Depositos.belongsToMany(Medicamentos, { through: MedicamentosDepositos, foreignKey: 'id_depositos' })
 
 module.exports = MedicamentosDepositos;
