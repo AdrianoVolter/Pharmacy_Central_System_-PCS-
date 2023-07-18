@@ -1,4 +1,4 @@
-const {INTEGER, STRING, DATE, ENUM} = require('sequelize')
+const {INTEGER, STRING, DATE, ENUM, FLOAT} = require('sequelize')
 const  connection  = require('../database/connection')
 const Medicamentos = require('./Medicamentos')
 const Depositos = require('./Depositos')
@@ -25,6 +25,37 @@ const MedicamentosDepositos = connection.define('medicamentos_depositos', {
         },
         allowNull:false
     },
+    preco:{
+        type:FLOAT,
+        allowNull:false,
+        validate    : {
+            isNumeric: {
+                args: true,
+                msg: 'O preço deve ser um número.'
+            }
+        }
+    },
+    quantidade:{
+        type:INTEGER,
+        allowNull:false,
+        validate    : {
+            isNumeric: {
+                args: true,
+                msg: 'A quantidade deve ser um número.'
+            }
+        }
+    },
+    descricao:{
+        type:STRING,
+        allowNull:false,
+        validate    : {
+            len: {
+                args: [3, 50],
+                msg: 'A descrição deve ter no mínimo 3 caracteres e no máximo 50 caracteres.'
+            }
+        }
+    },
+    
     createdAt: {
         type: DATE,
         allowNull: false,
