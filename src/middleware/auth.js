@@ -7,7 +7,7 @@ module.exports = {
     async auth(req, res, next) {
         try {
             const { authorization } = req.headers;
-            console.log(authorization)
+           
             console.log(verify(authorization, process.env.SECRET_KEY))
 
             if (verify(authorization, process.env.SECRET_KEY)) {
