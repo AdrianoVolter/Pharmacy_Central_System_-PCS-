@@ -68,11 +68,6 @@ const Deposito = connection.define('depositos', {
       cep:{
         type:STRING,
         allowNull:false,
-        unique:{
-            args: true,
-            msg: 'CEP já cadastrado !'
-
-        },
         validate:{
 
             len:{
