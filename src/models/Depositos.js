@@ -68,8 +68,13 @@ const Deposito = connection.define('depositos', {
       cep:{
         type:STRING,
         allowNull:false,
-        unique:true,
+        unique:{
+            args: true,
+            msg: 'CEP já cadastrado !'
+
+        },
         validate:{
+
             len:{
                 args: [8],
                 msg: 'O CEP deve ter o tamanho de 8 caracteres.'
@@ -90,6 +95,10 @@ const Deposito = connection.define('depositos', {
       numero:{
         type:STRING,
         allowNull:false,
+        unique:{
+            args: true,
+            msg: 'Numero já cadastrado !'
+        },
         validate:{
             len:{
                 args: [1, 10],

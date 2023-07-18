@@ -30,7 +30,8 @@ module.exports = {
                 status
 
             } = req.body;
-
+           
+           
             const depositoExiste = await Depositos.findOne({where:{
                 cnpj: cnpj,
                 razao_social: razao_social
@@ -87,7 +88,7 @@ module.exports = {
                 latitude, 
                 longitude,
                 status})
-                console.log(deposito)
+                //console.log(deposito)
             await DepositosUsuarios.create({id_depositos: deposito.id, id_usuarios: userId})
 
             if (!deposito){
@@ -98,9 +99,12 @@ module.exports = {
             }
 
         }catch(err){
+            console.error(err)
             return res.status(500).send({
-                err: err.message,
-                cause: "Erro no servidor!"
+
+                error: "Não foi possivel criar o depósito!",
+                cause: err.message
+
 
             })
         }
