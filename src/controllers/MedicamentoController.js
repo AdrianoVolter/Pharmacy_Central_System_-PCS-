@@ -31,7 +31,7 @@ module.exports = {
         }
         
         const id_depositos = depositoUsuario.id_depositos;
-        const medicamento = await Medicamentos.findOne({
+        let medicamento = await Medicamentos.findOne({
             where: {
             nome_medicamento,
             nome_laboratorio
@@ -43,12 +43,9 @@ module.exports = {
             medicamento = await Medicamentos.create({
             nome_medicamento,
             nome_laboratorio,
-            descricao,
             dosagem,
             unidade_dosagem,
-            tipo_medicamento,
-            preco,
-            quantidade
+            tipo_medicamento
             });
         } else {
            
@@ -65,19 +62,27 @@ module.exports = {
         
             await MedicamentosDepositos.create({
             id_medicamentos: medicamento.id,
-            id_depositos: id_depositos
+            id_depositos: id_depositos,
+            preco,
+            quantidade,
+            descricao
+
             });
         }
         
         return res.status(201).send({
+            Message: "Medicamento criado e associado ao depósito!",
             identificador: medicamento.id,
             nomeMedicamento: medicamento.nome_medicamento,
-            Message: "Medicamento criado e associado ao depósito!",
-            medicamento
+            medicamento,
+            preco,
+            quantidade,
+            descricao
         });
         
     } catch (err) {
       return res.status(500).send({
+       
         err: err.message,
         cause: 'Erro no servidor!'
       });
