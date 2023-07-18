@@ -65,6 +65,7 @@ npm install <nome_da_dependeicia>
 
 ### Adriano Jose Volter
 
+#### Link do trello [Click aqui !](https://trello.com/b/UaxE96it/pharmacy-central-system-pcs-modulo-2-projeto-avaliativo)
 #### Link do repositório [Click aqui !](https://github.com/AdrianoVolter/Pharmacy_Central_System_-PCS-)
 
 #### Meu perfil do GitHub  [ Click aqui !](https://github.com/AdrianoVolter)
