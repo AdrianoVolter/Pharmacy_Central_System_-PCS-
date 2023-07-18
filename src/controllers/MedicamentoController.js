@@ -16,6 +16,19 @@ module.exports = {
         quantidade
       } = req.body;
 
+    //   nome ja cadastrado e laboratorio ja cadastrado
+     
+        const medicamentoExiste = await Medicamentos.findOne({
+            where: {
+                nome_medicamento: nome_medicamento,
+                nome_laboratorio: nome_laboratorio
+            }
+        });
+
+        if (medicamentoExiste) {
+            return res.status(409).send({ error: 'Medicamento já cadastrado!' });
+        }
+
       const  id_usuarios  = req.usuario.id
       console.log(id_usuarios);
       
@@ -62,7 +75,12 @@ module.exports = {
         id_depositos: id_depositos
       });
 
-      return res.status(201).send({ Message: "Medicamento criado e associado ao depósito!", medicamento });
+      return res.status(201).send({
+        identificador: medicamento.id, // Inclui o ID do medicamento como "identificador"
+        nomeMedicamento: medicamento.nome_medicamento, // Inclui o nome do medicamento como "nomeMedicamento"
+        Message: "Medicamento criado e associado ao depósito!",
+        medicamento
+      });
     } catch (err) {
       return res.status(500).send({
         err: err.message,
