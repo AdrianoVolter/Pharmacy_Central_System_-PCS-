@@ -112,27 +112,33 @@ module.exports = {
 
     async atualizarMedicamento(req, res) {
         try {
-            const {id} = req.params;
+            
+            const { id } = req.params;
             const {
                 preco,
                 quantidade,
-                descricao
+                descricao,
+                
             } = req.body;
 
             const id_usuarios = req.usuario.id;
-            console.log(id_usuarios);
+           
+            let id_depositos;
 
             const depositoUsuario = await DepositoUsuarios.findOne({
                 where: {
-                    id_usuarios: id_usuarios
+                    id_usuarios: id_usuarios,
+                    // id_depositos: id_depositos
                 }
             });
+
+            
 
             if (!depositoUsuario) {
                 return res.status(400).send({ error: 'Usuário não possui depósito associado!' });
             }
 
-            const id_depositos = depositoUsuario.id_depositos; // Obtém o ID do depósito associado ao usuário
+            id_depositos = depositoUsuario.id_depositos;
 
             const medicamento = await Medicamentos.findOne({
                 where: {
@@ -165,15 +171,24 @@ module.exports = {
                 identificador: medicamento.id,
                 nomeMedicamento: medicamento.nome_medicamento,
                 Message: "Medicamento atualizado!",
-                medicamento,
+                medicamento:{
+                id: medicamento.id,
+                nome_medicamento: medicamento.nome_medicamento,
+                nome_laboratorio: medicamento.nome_laboratorio,
+                dosagem: medicamento.dosagem,
+                unidade_dosagem: medicamento.unidade_dosagem,
+                tipo_medicamento: medicamento.tipo_medicamento
+                },
                 preco,
                 quantidade,
                 descricao
+                
             });
 
 
 
         }   catch (err) {
+            console.log(err);
             return res.status(500).send({
                 err: err.message,
                 cause: 'Erro no servidor!'
