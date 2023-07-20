@@ -2,6 +2,7 @@ const Medicamentos = require('../models/Medicamentos');
 const MedicamentosDepositos = require('../models/MedicamentosDepositos');
 const DepositoUsuarios = require('../models/DepositosUsuarios');
 const Depositos = require('../models/Depositos');
+const Usuario = require('../models/Usuarios');
 
 module.exports = {
     async cadastroMedicamento(req, res) {
@@ -67,6 +68,7 @@ module.exports = {
                     id_medicamentos: medicamento.id,
                     id_depositos: id_depositos
                 }
+              
             });
     
             if (medicamentoDeposito) {
@@ -84,8 +86,16 @@ module.exports = {
             return res.status(201).send({
                 identificador: medicamento.id,
                 nomeMedicamento: medicamento.nome_medicamento,
-                Message: "Medicamento criado e associado ao depósito!",
-                medicamento,
+                nomeLaboratorio: medicamento.nome_laboratorio,
+                razaoSocialDeposito: deposito.razao_social,
+                medicamento: {
+                    id: medicamento.id,
+                    nome_medicamento: medicamento.nome_medicamento,
+                    nome_laboratorio: medicamento.nome_laboratorio,
+                    dosagem: medicamento.dosagem,
+                    unidade_dosagem: medicamento.unidade_dosagem,
+                    tipo_medicamento: medicamento.tipo_medicamento
+                },
                 preco,
                 quantidade,
                 descricao
