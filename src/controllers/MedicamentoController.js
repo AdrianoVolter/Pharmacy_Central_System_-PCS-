@@ -84,21 +84,20 @@ module.exports = {
             });
     
             return res.status(201).send({
+                Message: "Medicamento cadastrado!",
                 identificador: medicamento.id,
                 nomeMedicamento: medicamento.nome_medicamento,
-                nomeLaboratorio: medicamento.nome_laboratorio,
-                razaoSocialDeposito: deposito.razao_social,
                 medicamento: {
                     id: medicamento.id,
                     nome_medicamento: medicamento.nome_medicamento,
                     nome_laboratorio: medicamento.nome_laboratorio,
                     dosagem: medicamento.dosagem,
                     unidade_dosagem: medicamento.unidade_dosagem,
-                    tipo_medicamento: medicamento.tipo_medicamento
+                    tipo_medicamento: medicamento.tipo_medicamento,
                 },
                 preco,
                 quantidade,
-                descricao
+                descricao,
             });
     
         } catch (err) {
@@ -157,20 +156,18 @@ module.exports = {
             });
     
             return res.status(200).send({
+                Message: "Medicamento atualizado!",
                 identificador: medicamento.id,
                 nomeMedicamento: medicamento.nome_medicamento,
-                Message: "Medicamento atualizado!",
-                medicamento: {
-                    id: medicamento.id,
-                    nome_medicamento: medicamento.nome_medicamento,
-                    nome_laboratorio: medicamento.nome_laboratorio,
-                    dosagem: medicamento.dosagem,
-                    unidade_dosagem: medicamento.unidade_dosagem,
-                    tipo_medicamento: medicamento.tipo_medicamento
-                },
                 preco,
                 quantidade,
-                descricao
+                descricao,
+                atualizadoPor: {
+                    nome: req.usuario.nome
+                },
+                deposito: {
+                    id: id_depositos
+                },
             });
     
         } catch (err) {
