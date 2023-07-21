@@ -6,5 +6,6 @@ const {validarToken} = require('../middleware/auth')
 
 routes.post('/medicamentos', validarToken, MedicamentoController.cadastroMedicamento);
 routes.patch('/medicamentos/:id', validarToken, MedicamentoController.atualizarMedicamento);
+routes.get('/medicamentos', validarToken, MedicamentoController.listarMedicamentos);
 
 module.exports = routes;

@@ -189,7 +189,60 @@ module.exports = {
             });
         }
     },
+//listar medicamentos por query params Contolado ou Não Controlado
+    async listarMedicamentos(req, res) {
+        try {
+            const { tipo_medicamento } = req.query;
+            if (req.query.tipo_medicamento == undefined) {
+                const medicamentos = await Medicamentos.findAll();
+                return res.status(200).send({
+                    medicamentos: medicamentos.map(medicamentos => {
+                        return {
+                            id: medicamentos.id,
+                            nome_medicamento: medicamentos.nome_medicamento,
+                            nome_laboratorio: medicamentos.nome_laboratorio,
+                            dosagem: medicamentos.dosagem,
+                            unidade_dosagem: medicamentos.unidade_dosagem,
+                            tipo_medicamento: medicamentos.tipo_medicamento,
+                            preco: medicamentos.preco,
+                            quantidade: medicamentos.quantidade,
+                            descricao: medicamentos.descricao,
+                        }
+                    })
+                });
+            } else
+            if (!tipo_medicamento) {
+                return res.status(400).send({ error: 'Tipo de medicamento não informado!' });
+            }
 
+
+            const medicamentos = await Medicamentos.findAll({
+                where: {
+                    tipo_medicamento: tipo_medicamento
+                }
+            });
+            return res.status(200).send({
+                medicamentos: medicamentos.map(medicamentos => {
+                    return {
+                    id: medicamentos.id,
+                    nome_medicamento: medicamentos.nome_medicamento,
+                    nome_laboratorio: medicamentos.nome_laboratorio,
+                    dosagem: medicamentos.dosagem,
+                    unidade_dosagem: medicamentos.unidade_dosagem,
+                    tipo_medicamento: medicamentos.tipo_medicamento,
+                    preco: medicamentos.preco,
+                    quantidade: medicamentos.quantidade,
+                    descricao: medicamentos.descricao,
+                }
+                })
+            });
+        } catch (err) {
+            return res.status(500).send({
+                err: err.message,
+                cause: 'Erro no servidor!'
+            });
+        }
+    }
 
 }
 
