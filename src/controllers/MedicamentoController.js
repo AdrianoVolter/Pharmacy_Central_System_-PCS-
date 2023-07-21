@@ -113,7 +113,7 @@ module.exports = {
     async  atualizarMedicamento(req, res) {
         try {
             const { id } = req.params;
-            const { preco, quantidade, descricao, id_depositos } = req.body; // Adicione id_depositos ao destructuring do req.body
+            const { preco, quantidade, descricao, id_depositos } = req.body; // Adicione id_depositos para atualizar o depósito selecionado
             const id_usuarios = req.usuario.id;
             console.log(id_usuarios);
     
@@ -152,7 +152,8 @@ module.exports = {
             await medicamentoDeposito.update({
                 preco: preco,
                 quantidade: quantidade,
-                descricao: descricao
+                descricao: descricao,
+
             });
     
             return res.status(200).send({
