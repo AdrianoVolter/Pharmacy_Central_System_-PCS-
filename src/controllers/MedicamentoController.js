@@ -72,7 +72,7 @@ module.exports = {
             });
     
             if (medicamentoDeposito) {
-                return res.status(400).send({ error: 'Medicamento já cadastrado neste depósito!' });
+                return res.status(409).send({ error: 'Medicamento já cadastrado neste depósito!' });
             }
     
             await MedicamentosDepositos.create({
@@ -94,10 +94,19 @@ module.exports = {
                     dosagem: medicamento.dosagem,
                     unidade_dosagem: medicamento.unidade_dosagem,
                     tipo_medicamento: medicamento.tipo_medicamento,
+                    preco,
+                    quantidade,
+                    descricao
                 },
-                preco,
-                quantidade,
-                descricao,
+                
+               usuarioResponsavel: {
+                usuario: {
+                    nome: req.usuario.nome
+                },
+                deposito: {
+                    id: id_depositos
+                },
+            }
             });
     
         } catch (err) {
@@ -162,12 +171,14 @@ module.exports = {
                 preco,
                 quantidade,
                 descricao,
-                atualizadoPor: {
-                    nome: req.usuario.nome
-                },
-                deposito: {
-                    id: id_depositos
-                },
+                usuarioResponsavel: {
+                    usuario: {
+                        nome: req.usuario.nome
+                    },
+                    deposito: {
+                        id: id_depositos
+                    },
+                }
             });
     
         } catch (err) {
@@ -177,7 +188,7 @@ module.exports = {
                 cause: 'Erro no servidor!'
             });
         }
-    }
+    },
 
 
 }
