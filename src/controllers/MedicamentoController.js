@@ -232,9 +232,6 @@ module.exports = {
                 return res.status(400).send({ error: 'Tipo de medicamento não informado!' });
             }
 
-            // if (tipo_medicamento != 'controlado' && tipo_medicamento != 'naocontrolado') {
-            //     return res.status(400).send({ error: 'Tipo de medicamento inválido!' });
-            // }
             const medicamentos = await Medicamentos.findAll({
                 where: {
                     tipo_medicamento: tipo_medicamento
@@ -266,16 +263,26 @@ module.exports = {
     async listarMedicamento(req, res) {
         try {
             const { id } = req.params;
+    
             const medicamento = await Medicamentos.findOne({
                 where: {
                     id: id
-                },
-  
+                }
             });
-            
+    
             if (!medicamento) {
                 return res.status(404).send({ error: 'Medicamento não encontrado!' });
             }
+            const medicamentosDepositos = await MedicamentosDepositos.findAll({
+                where: {
+                    id_medicamentos: id
+                },
+                attributes: ['id_depositos'] 
+            });
+    
+            // Extrai os IDs dos depósitos da consulta anterior
+            const depositoIds = medicamentosDepositos.map((medicamentoDeposito) => medicamentoDeposito.id_depositos);
+    
             return res.status(200).send({
                 medicamento: {
                     id: medicamento.id,
@@ -284,19 +291,17 @@ module.exports = {
                     dosagem: medicamento.dosagem,
                     unidade_dosagem: medicamento.unidade_dosagem,
                     tipo_medicamento: medicamento.tipo_medicamento,
-                    preco: medicamento.preco,
-                    quantidade: medicamento.quantidade,
-                    descricao: medicamento.descricao,
-                
-                }
+                },
+                depositoIds: depositoIds 
             });
         } catch (err) {
+            console.log(err);
             return res.status(500).send({
                 err: err.message,
                 cause: 'Erro no servidor!'
             });
         }
     }
-
+    
 }
 
