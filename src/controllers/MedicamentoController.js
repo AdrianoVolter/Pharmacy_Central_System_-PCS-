@@ -123,7 +123,7 @@ module.exports = {
             const { id } = req.params;
             const { preco, quantidade, descricao, id_depositos } = req.body; // Adicione id_depositos para atualizar o depósito selecionado
             const id_usuarios = req.usuario.id;
-            console.log(id_usuarios);
+           
     
             const depositoUsuario = await DepositoUsuarios.findOne({
                 where: {
@@ -254,6 +254,41 @@ module.exports = {
                     descricao: medicamentos.descricao,
                 }
                 })
+            });
+        } catch (err) {
+            return res.status(500).send({
+                err: err.message,
+                cause: 'Erro no servidor!'
+            });
+        }
+    },
+    //listar pelo id do medicamento
+    async listarMedicamento(req, res) {
+        try {
+            const { id } = req.params;
+            const medicamento = await Medicamentos.findOne({
+                where: {
+                    id: id
+                },
+  
+            });
+            
+            if (!medicamento) {
+                return res.status(404).send({ error: 'Medicamento não encontrado!' });
+            }
+            return res.status(200).send({
+                medicamento: {
+                    id: medicamento.id,
+                    nome_medicamento: medicamento.nome_medicamento,
+                    nome_laboratorio: medicamento.nome_laboratorio,
+                    dosagem: medicamento.dosagem,
+                    unidade_dosagem: medicamento.unidade_dosagem,
+                    tipo_medicamento: medicamento.tipo_medicamento,
+                    preco: medicamento.preco,
+                    quantidade: medicamento.quantidade,
+                    descricao: medicamento.descricao,
+                
+                }
             });
         } catch (err) {
             return res.status(500).send({
