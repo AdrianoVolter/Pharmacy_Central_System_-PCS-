@@ -192,8 +192,25 @@ module.exports = {
 //listar medicamentos por query params Contolado ou Não Controlado
     async listarMedicamentos(req, res) {
         try {
-            const { tipo_medicamento } = req.query;
+
+            const valorfunction = function (valor) { 
+                if (valor == 'controlado') {
+                    return 'Controlado';
+                } else if (valor == 'naocontrolado') {
+                    return 'Não Controlado';
+                } else {
+                    return 'Controlado ou Não Controlado';
+                }
+            }
+
+            const tipo_medicamento = valorfunction(req.query.tipo_medicamento);
+
+            if (req.query.tipo_medicamento !== 'controlado' && req.query.tipo_medicamento !== 'naocontrolado' && req.query.tipo_medicamento !== undefined) {
+                return res.status(400).send({ error: 'Tipo de medicamento inválido , digite controlado ou naocontrolado!' });
+            }
             if (req.query.tipo_medicamento == undefined) {
+
+
                 const medicamentos = await Medicamentos.findAll();
                 return res.status(200).send({
                     medicamentos: medicamentos.map(medicamentos => {
@@ -215,7 +232,9 @@ module.exports = {
                 return res.status(400).send({ error: 'Tipo de medicamento não informado!' });
             }
 
-
+            // if (tipo_medicamento != 'controlado' && tipo_medicamento != 'naocontrolado') {
+            //     return res.status(400).send({ error: 'Tipo de medicamento inválido!' });
+            // }
             const medicamentos = await Medicamentos.findAll({
                 where: {
                     tipo_medicamento: tipo_medicamento
