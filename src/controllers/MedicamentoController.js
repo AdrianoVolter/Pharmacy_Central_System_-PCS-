@@ -301,6 +301,69 @@ module.exports = {
                 cause: 'Erro no servidor!'
             });
         }
+    },
+
+    async excluirMedicamento(req, res) {
+        try {
+            const { id } = req.params;
+            const { id_depositos } = req.body;
+            const id_usuarios = req.usuario.id;
+    
+            const depositoUsuario = await DepositoUsuarios.findOne({
+                where: {
+                    id_usuarios: id_usuarios,
+                    id_depositos: id_depositos
+                }
+            });
+    
+            if (!depositoUsuario) {
+                return res.status(400).send({ error: 'Usuário não possui depósito associado a esse id_depositos!' });
+            }
+    
+            const medicamento = await Medicamentos.findOne({
+                where: {
+                    id: id
+                }
+            });
+    
+            if (!medicamento) {
+                return res.status(404).send({ error: 'Medicamento não encontrado!' });
+            }
+    
+            const medicamentoDeposito = await MedicamentosDepositos.findOne({
+                where: {
+                    id_medicamentos: medicamento.id,
+                    id_depositos: id_depositos
+                }
+            });
+    
+            if (!medicamentoDeposito) {
+                return res.status(404).send({ error: 'Medicamento não encontrado no depósito!' });
+            }
+    
+            await medicamentoDeposito.destroy();
+    
+            return res.status(200).send({
+                Message: "Medicamento excluído!",
+                identificador: medicamento.id,
+                nomeMedicamento: medicamento.nome_medicamento,
+                usuarioResponsavel: {
+                    usuario: {
+                        nome: req.usuario.nome
+                    },
+                    deposito: {
+                        id: id_depositos
+                    },
+                }
+            });
+    
+        } catch (err) {
+            console.log(err);
+            return res.status(500).send({
+                err: err.message,
+                cause: 'Erro no servidor!'
+            });
+        }
     }
     
 }

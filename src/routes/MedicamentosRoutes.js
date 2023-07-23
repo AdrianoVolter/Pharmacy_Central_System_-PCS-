@@ -8,5 +8,6 @@ routes.post('/medicamentos', validarToken, MedicamentoController.cadastroMedicam
 routes.patch('/medicamentos/:id', validarToken, MedicamentoController.atualizarMedicamento);
 routes.get('/medicamentos', validarToken, MedicamentoController.listarMedicamentos);
 routes.get('/medicamentos/:id', validarToken, MedicamentoController.listarMedicamento);
+routes.delete('/medicamentos/:id', validarToken, MedicamentoController.excluirMedicamento);
 
 module.exports = routes;
