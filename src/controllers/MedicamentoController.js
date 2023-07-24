@@ -303,20 +303,31 @@ module.exports = {
             
             const { id } = req.params;
             const id_usuarios = req.usuario.id;
-            
             const { id_depositos } = req.body;
 
+            console.log(id_usuarios);
+            
             const depositoUsuario = await DepositoUsuarios.findOne({
                 where: {
                     id_usuarios: id_usuarios,
                     id_depositos: id_depositos
                 }
             });
-    
+            console.log(depositoUsuario);
+
             if (!depositoUsuario) {
                 return res.status(400).send({ error: 'Usuário não possui depósito associado a esse id_depositos!' });
             }
-    
+            
+            const deposito = await Depositos.findOne({
+                where: {
+                    id: id_depositos
+                }
+            });
+
+            if (!deposito) {
+                return res.status(400).send({ error: 'Depósito com o ID fornecido não existe!' });
+            }
             const medicamento = await Medicamentos.findOne({
                 where: {
                     id: id
