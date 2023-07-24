@@ -23,10 +23,6 @@ const Medicamentos = connection.define('medicamentos', {
             }
         }
       },
-      // descricao:{
-      //   type:STRING,
-      //   allowNull:true
-      // },
       dosagem:{
         type:INTEGER,
         allowNull:false,
@@ -57,26 +53,7 @@ const Medicamentos = connection.define('medicamentos', {
             }
         }
       },
-      // preco:{
-      //   type:INTEGER,
-      //   allowNull:false,
-      //   validate    : {
-      //       isNumeric: {
-      //           args: true,
-      //           msg: 'O preço deve ser um número.'
-      //       }
-      //   }
-      // },
-      // quantidade:{
-      //   type:INTEGER,
-      //   allowNull:false,
-      //   validate    : {
-      //       isNumeric: {
-      //           args: true,
-      //           msg: 'A quantidade deve ser um número.'
-      //       }
-      //   }
-      // },
+   
       createdAt: {
         type: DATE,
         allowNull: false
