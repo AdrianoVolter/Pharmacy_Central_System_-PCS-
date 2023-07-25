@@ -55,7 +55,11 @@ module.exports = {
                 }
                 if (usuario.senha === senha){
                     const token = jwt.sign( payload, process.env.SECRET_KEY, {expiresIn: 86400});
-                    return res.status(200).send({message: 'Login realizado com sucesso!', usuario, token})
+                    return res.status(200).send({
+                        message: 'Login realizado com sucesso!',
+                        usuario: payload,
+                        token: token
+                    })
                 }else{
                     return res.status(400).send({error: 'Senha incorreta!'})
                 }
