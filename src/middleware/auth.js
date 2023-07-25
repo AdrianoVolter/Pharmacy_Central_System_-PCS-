@@ -3,22 +3,6 @@ const { config } = require('dotenv');
 config();
 
 module.exports = {
-// valilidar o token
-    async auth(req, res, next) {
-        try {
-            const { authorization } = req.headers;
-           
-            console.log(verify(authorization, process.env.SECRET_KEY))
-
-            if (verify(authorization, process.env.SECRET_KEY)) {
-                 next();
-            }else {
-                return res.status(401).send({error: 'Não autorizado!'})
-            }
-        } catch (error) {
-            return res.status(401).send({error: 'Não autorizado!'})
-        }
-    },
 
 // valilidar o token e decodiificar o token
     async validarToken(req, res, next) {

@@ -1,4 +1,4 @@
-const {INTEGER, STRING, DATE, ENUM} = require('sequelize')
+const {STRING, DATE, ENUM} = require('sequelize')
 const  connection  = require('../database/connection')
 
 const Deposito = connection.define('depositos', {

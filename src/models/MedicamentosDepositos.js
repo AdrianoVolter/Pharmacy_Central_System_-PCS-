@@ -1,4 +1,4 @@
-const {INTEGER, STRING, DATE, ENUM, FLOAT} = require('sequelize')
+const {INTEGER, STRING, DATE, FLOAT} = require('sequelize')
 const  connection  = require('../database/connection')
 const Medicamentos = require('./Medicamentos')
 const Depositos = require('./Depositos')

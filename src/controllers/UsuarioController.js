@@ -2,8 +2,6 @@
 const  Usuario  = require('../models/Usuarios')
 const jwt = require('jsonwebtoken')
 const { config } = require('dotenv');
-//const { verify } = require('jsonwebtoken');
-
 
 config();
 
@@ -64,7 +62,7 @@ module.exports = {
             }
 
         } catch (error) {
-            //console.error(error)
+           
             return res.status(400).send({error: error.message})
         }
     },
@@ -93,7 +91,6 @@ module.exports = {
                     usuario: {id, nome, sobrenome, genero, telefone}}) //codigo 200 = ok , 204 não tem conteudo
             }
         } catch (error) {
-            console.error(error)
             return res.status(400).send({error: error.message})
         }
     },
@@ -122,7 +119,6 @@ module.exports = {
                 usuario: {id, status}}) 
             }
         } catch (error) {
-            console.error(error)
             return res.status(400).send({error: error.message})
         }
     },
@@ -139,7 +135,6 @@ module.exports = {
                 return res.status(200).send({message: 'Usuario encontrado!', usuario})
             }
         } catch (error) {
-            console.error(error)
             return res.status(400).send({
                 error: error.message,
                 cause: error.parent
@@ -167,7 +162,6 @@ module.exports = {
                 usuario: {id, senha}}) 
             }
         } catch (error) {
-            console.error(error)
             return res.status(400).send({error: error.message})
         }
     }
