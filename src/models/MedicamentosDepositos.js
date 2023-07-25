@@ -68,7 +68,10 @@ const MedicamentosDepositos = connection.define('medicamentos_depositos', {
         type: DATE,
         allowNull: true,
     }
-})
+}, {
+    paranoid: true
+}
+)
  
 Medicamentos.belongsToMany(Depositos, { through: MedicamentosDepositos, foreignKey: 'id_medicamentos' })
 Depositos.belongsToMany(Medicamentos, { through: MedicamentosDepositos, foreignKey: 'id_depositos' })
