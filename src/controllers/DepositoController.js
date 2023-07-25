@@ -31,15 +31,10 @@ module.exports = {
 
             } = req.body;
            
-           
             const depositoExiste = await Depositos.findOne({where:{
                 cnpj: cnpj,
                 razao_social: razao_social
             }});
-
-            // if (depositoExiste){
-            //     return res.status(409).send({error: 'O deposito Ja existe!', CNPJ: cnpj, razao_social})
-            // }
 
             if (depositoExiste){
                 const depositoUsuarioExiste = await DepositosUsuarios.findOne({where:{
@@ -133,7 +128,7 @@ module.exports = {
                 return res.status(204).send({message: 'Depósito atualizado com sucesso!', deposito: {id, nome_fantasia, email, telefone, celular, cep, logradouro, numero, bairro, cidade, estado, complemento, latitude, longitude}}) 
             }
         } catch (error) {
-            // console.error(error)
+            console.error(error)
             return res.status(400).send({error: error.message})
        
         }
