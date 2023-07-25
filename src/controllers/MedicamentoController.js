@@ -2,7 +2,6 @@ const Medicamentos = require('../models/Medicamentos');
 const MedicamentosDepositos = require('../models/MedicamentosDepositos');
 const DepositoUsuarios = require('../models/DepositosUsuarios');
 const Depositos = require('../models/Depositos');
-const Usuario = require('../models/Usuarios');
 
 module.exports = {
     async cadastroMedicamento(req, res) {
@@ -28,9 +27,9 @@ module.exports = {
                     id_depositos: id_depositos
                 }
             });
-            //se digitou um depósito que não é do usuário
+           
             if (!depositoUsuario ||depositoUsuario.length == 0) {
-                return res.status(400).send({ error: 'Usuário não possui depósito associado!' });
+                return res.status(400).send({ error: 'Usuário não possui depósito associado ou nao é o usuário do depósito!' });
             }
 
             const deposito = await Depositos.findOne({
@@ -110,7 +109,6 @@ module.exports = {
             });
     
         } catch (err) {
-            
             return res.status(500).send({
                 err: err.message,
                 cause: 'Erro no servidor!'
@@ -182,7 +180,6 @@ module.exports = {
             });
     
         } catch (err) {
-            console.log(err);
             return res.status(500).send({
                 err: err.message,
                 cause: 'Erro no servidor!'
@@ -259,7 +256,7 @@ module.exports = {
             });
         }
     },
-    //listar pelo id do medicamento
+//listar pelo id do medicamento
     async listarMedicamento(req, res) {
         try {
             const { id } = req.params;
@@ -294,14 +291,74 @@ module.exports = {
                 },
                 depositoIds: depositoIds 
             });
-        } catch (err) {
-            console.log(err);
+        } catch (err) {            
+            return res.status(500).send({
+                err: err.message,
+                cause: 'Erro no servidor!'
+            });
+        }
+    },
+    async excluirMedicamento(req, res) {
+        try {
+            
+            const { id } = req.params;
+            const id_usuarios = req.usuario.id;
+            const { id_depositos } = req.body;
+
+            const depositoUsuario = await DepositoUsuarios.findOne({
+                where: {
+                    id_usuarios: id_usuarios,
+                    id_depositos: id_depositos
+                }
+            });
+           
+            if (!depositoUsuario) {
+                return res.status(400).send({ error: 'Usuário não possui depósito associado a esse id_depositos!' });
+            }
+            
+            const deposito = await Depositos.findOne({
+                where: {
+                    id: id_depositos
+                }
+            });
+
+            if (!deposito) {
+                return res.status(400).send({ error: 'Depósito com o ID fornecido não existe!' });
+            }
+            const medicamento = await Medicamentos.findOne({
+                where: {
+                    id: id
+                }
+            });
+    
+            if (!medicamento) {
+                return res.status(404).send({ error: 'Medicamento não encontrado!' });
+            }
+    
+            const medicamentoDeposito = await MedicamentosDepositos.findOne({
+                where: {
+                    id_medicamentos: medicamento.id,
+                    id_depositos: id_depositos
+                }
+            });
+
+            if (!medicamentoDeposito) {
+                return res.status(404).send({ error: 'Medicamento não encontrado no depósito!' });
+            }
+         
+            await medicamentoDeposito.destroy();
+            await medicamento.destroy();
+    
+            return res.status(204).send({
+               
+            });
+    
+        } catch (err) {           
             return res.status(500).send({
                 err: err.message,
                 cause: 'Erro no servidor!'
             });
         }
     }
-    
 }
 
