@@ -19,6 +19,7 @@
     <img src="https://skillicons.dev/icons?i=nodejs,express,postgres,sequelize,javascript,git,github,vscode" />
   </a>
 </p>
+<ol>
 <li>Node.js: Plataforma de desenvolvimento que permite executar código JavaScript no servidor e criar aplicações web escaláveis.
 
 <li>Express: Framework web para Node.js que simplifica a criação de APIs e aplicações web, facilitando o tratamento de rotas, middlewares e requisições HTTP.
@@ -32,6 +33,7 @@
 <li>Git e GitHub: Sistema de controle de versão (Git) usado para rastrear e gerenciar alterações no código-fonte, e plataforma de hospedagem de repositórios (GitHub) utilizada para armazenar e compartilhar o código do projeto.
 
 <li>Visual Studio Code (VSCode): Um editor de código-fonte altamente popular e extensível que é frequentemente usado para desenvolvimento em Node.js e outras tecnologias web.
+</ol>
 
 ***
 ## Dependências usando Npm
@@ -46,6 +48,10 @@
     <li>cors</li>
     <li>jsonwebtoken</li>
 </ul>
+
+## Diagrama de Entidade e Relacionamento 
+
+![Imagem do Projeto](assets/Captura%20de%20tela%20de%202023-07-20%2022-17-39.png)
 
 
 
@@ -74,6 +80,19 @@
 ```
 npm install <nome_da_dependeicia>
 ```
+
+### Para para iniciar o servidor, use o comando :
+
+```
+npm start
+```
+### Para criar as tabelas no banco de dados, use o comando :
+
+```
+npx sequelize-cli db:migrate
+```
+
+
 ## Melhorias futuras para api 
 
 Para melhorar a api , pretendo adicionar mais funcionalidades , como por exemplo :
