@@ -1,9 +1,7 @@
 const Depositos = require('../models/Depositos')
 const DepositosUsuarios = require('../models/DepositosUsuarios');
-const {sequelize} = require('sequelize');
 
 module.exports = {
-
     //criar deposito
     async criarDeposito(req, res) {
 
@@ -94,13 +92,10 @@ module.exports = {
             }
 
         }catch(err){
-            console.error(err)
             return res.status(500).send({
 
                 error: "Não foi possivel criar o depósito!",
                 cause: err.message
-
-
             })
         }
 
@@ -128,7 +123,6 @@ module.exports = {
                 return res.status(204).send({message: 'Depósito atualizado com sucesso!', deposito: {id, nome_fantasia, email, telefone, celular, cep, logradouro, numero, bairro, cidade, estado, complemento, latitude, longitude}}) 
             }
         } catch (error) {
-            console.error(error)
             return res.status(400).send({error: error.message})
        
         }
@@ -158,7 +152,6 @@ module.exports = {
                 deposito: {id, status}}) 
             }
         } catch (error) {
-            console.error(error)
             return res.status(400).send({error: error.message})
         }
     },
@@ -284,7 +277,6 @@ module.exports = {
                 return res.status(200).send({message: 'Depósito encontrado!', deposito})
             }
         } catch (error) {
-            console.error(error)
             return res.status(400).send({error: error.message})
         }
     },
@@ -315,7 +307,6 @@ module.exports = {
                 
             }
         } catch (error) {
-            console.error(error)
             return res.status(400).send({error: error.message})
         }
     }

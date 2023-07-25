@@ -19,7 +19,6 @@ module.exports = {
             } = req.body;
     
             const id_usuarios = req.usuario.id;
-            console.log(id_usuarios);
     
             const depositoUsuario = await DepositoUsuarios.findAll({
                 where: {
