@@ -27,7 +27,7 @@ module.exports = {
                     id_depositos: id_depositos
                 }
             });
-            //se digitou um depósito que não é do usuário
+           
             if (!depositoUsuario ||depositoUsuario.length == 0) {
                 return res.status(400).send({ error: 'Usuário não possui depósito associado ou nao é o usuário do depósito!' });
             }
@@ -256,7 +256,7 @@ module.exports = {
             });
         }
     },
-    //listar pelo id do medicamento
+//listar pelo id do medicamento
     async listarMedicamento(req, res) {
         try {
             const { id } = req.params;
@@ -305,16 +305,13 @@ module.exports = {
             const id_usuarios = req.usuario.id;
             const { id_depositos } = req.body;
 
-            console.log(id_usuarios);
-            
             const depositoUsuario = await DepositoUsuarios.findOne({
                 where: {
                     id_usuarios: id_usuarios,
                     id_depositos: id_depositos
                 }
             });
-            console.log(depositoUsuario);
-
+           
             if (!depositoUsuario) {
                 return res.status(400).send({ error: 'Usuário não possui depósito associado a esse id_depositos!' });
             }
@@ -353,20 +350,7 @@ module.exports = {
             await medicamento.destroy();
     
             return res.status(204).send({
-                // Message: "Medicamento excluído!",
-                // identificador: medicamento.id,
-                // nomeMedicamento: medicamento.nome_medicamento,
-                // preco: medicamento.preco,
-                // quantidade: medicamento.quantidade,
-                // descricao: medicamento.descricao,
-                // usuarioResponsavel: {
-                //     usuario: {
-                //         nome: req.usuario.nome
-                //     },
-                //     deposito: {
-                //         id: id_depositos
-                //     },
-                // }
+               
             });
     
         } catch (err) {           
