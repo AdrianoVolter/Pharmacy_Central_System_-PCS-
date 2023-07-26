@@ -56,7 +56,7 @@ Possui um relacionamento de muitos para muitos com o modelo Medicamentos, permit
 Representa os dados de medicamentos no sistema.
 Possui um relacionamento de muitos para muitos com o modelo Deposito, permitindo que um medicamento esteja associado a vários depósitos.
 
-<p>Tabela MedicamentosDepositos:
+<p>Tabela Medicamentos Depositos:
 
 Representa o relacionamento entre os modelos Medicamentos e Deposito.
 Facilita os relacionamentos muitos para muitos entre medicamentos e depósitos, permitindo a associação de medicamentos com locais específicos de depósito.
@@ -125,6 +125,9 @@ Para melhorar a api , pretendo adicionar mais funcionalidades , como por exemplo
 
 [![DBeaver](https://img.shields.io/badge/DBeaver-IDE%20para%20banco%20de%20dados-blue)](https://dbeaver.io/)
 
+<li>Trello
+
+[![Trello](https://img.shields.io/badge/Trello-Gerenciador%20de%20projetos-blue)](https://trello.com/)
 
 ### Feito Por Adriano Jose Volter
 
@@ -134,6 +137,10 @@ Para melhorar a api , pretendo adicionar mais funcionalidades , como por exemplo
 
 #### Meu perfil do GitHub  [ Click aqui !](https://github.com/AdrianoVolter)
 ***
+### Professores responsáveis pelo projeto:
+
+#### [Rawan.H](https://github.com/Hawangledt) 
+#### [Pedro Henrique B. da Silva](https://github.com/pedrohbsilva) 
 
 ## FONTES DE PESQUISA
 <li>https://chat.openai.com/
