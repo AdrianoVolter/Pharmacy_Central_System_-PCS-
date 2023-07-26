@@ -1,7 +1,10 @@
 # Pharmacy Central System (PCS) 
-## Gerenciamento de depósitos e medicamentos Projeto avaliativo , modulo 2 back-end 
+## Gerenciamento de depósitos e medicamentos 
+### Projeto avaliativo | modulo 2 back-end 
  
- ![GitHub commits]( https://img.shields.io/github/commit-activity/m/AdrianoVolter/Pharmacy_Central_System_-PCS-?style=plastic) ![GitHub relesase]( https://img.shields.io/github/v/release/AdrianoVolter/Pharmacy_Central_System_-PCS-?style=plastic) 
+ ![GitHub commits]( https://img.shields.io/github/commit-activity/m/AdrianoVolter/Pharmacy_Central_System_-PCS-?style=plastic) 
+ 
+ ![GitHub relesase]( https://img.shields.io/github/v/release/AdrianoVolter/Pharmacy_Central_System_-PCS-?style=plastic) 
 <p>
   Esse projeto tem como objetivo criar o backend do sistema Pharmacy Central System, a API Pharmacy Central System (PCS), para gerenciar usuários, depósitos e medicamentos , recebendo dados de requisição e inserindo-os no banco de dados postgres com nome de pcsbd e retornando dados necessários. 
   Nessa API podemos:
