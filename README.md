@@ -2,9 +2,7 @@
 ## Gerenciamento de depósitos e medicamentos 
 ### Projeto avaliativo | modulo 2 back-end 
  
- ![GitHub commits]( https://img.shields.io/github/commit-activity/m/AdrianoVolter/Pharmacy_Central_System_-PCS-?style=plastic) 
-
- ![GitHub relesase]( https://img.shields.io/github/v/release/AdrianoVolter/Pharmacy_Central_System_-PCS-?style=plastic) 
+ 
 <p>
   Esse projeto tem como objetivo criar o backend do sistema Pharmacy Central System, a API Pharmacy Central System (PCS), para gerenciar usuários, depósitos e medicamentos , recebendo dados de requisição e inserindo-os no banco de dados postgres com nome de pcsbd e retornando dados necessários. 
   Nessa API podemos:
@@ -40,43 +38,43 @@
 
 ![Imagem do Projeto](assets/Captura%20de%20tela%20de%202023-07-20%2022-17-39.png)
 
-<p>Tabela Usuarios:
+#### Tabela Usuarios:
 
 Representa os dados dos usuários no sistema.
 Possui um relacionamento de um para muitos com o modelo Deposito, onde um usuário pode ter vários depósitos associados a ele.
 
-<p>Tabela Depositos:
+#### Tabela Depositos:
 
 Representa os dados de depósitos onde os medicamentos são armazenados.
 Possui um relacionamento de muitos para muitos com o modelo Usuario, permitindo que vários usuários estejam associados a um depósito.
 Possui um relacionamento de muitos para muitos com o modelo Medicamentos, permitindo que vários medicamentos estejam associados a um depósito.
 
-<p>Tabela Medicamentos:
+### Tabela Medicamentos:
 
 Representa os dados de medicamentos no sistema.
 Possui um relacionamento de muitos para muitos com o modelo Deposito, permitindo que um medicamento esteja associado a vários depósitos.
 
-<p>Tabela Medicamentos Depositos:
+#### Tabela Medicamentos Depositos:
 
 Representa o relacionamento entre os modelos Medicamentos e Deposito.
 Facilita os relacionamentos muitos para muitos entre medicamentos e depósitos, permitindo a associação de medicamentos com locais específicos de depósito.
 
-<p>É um sistema de gerenciamento farmacêutico que permite aos usuários administrar depósitos, medicamentos armazenados nesses depósitos e contas de usuário. Ele permite que os usuários associem medicamentos a depósitos específicos e recuperem dados com base em vários critérios. O projeto foi projetado para lidar com operações CRUD (Criar, Ler, Atualizar, Excluir) para essas entidades e gerenciar os relacionamentos entre elas usando as associações do Sequelize.
+É um sistema de gerenciamento farmacêutico que permite aos usuários administrar depósitos, medicamentos armazenados nesses depósitos e contas de usuário. Ele permite que os usuários associem medicamentos a depósitos específicos e recuperem dados com base em vários critérios. O projeto foi projetado para lidar com operações CRUD (Criar, Ler, Atualizar, Excluir) para essas entidades e gerenciar os relacionamentos entre elas usando as associações do Sequelize.
 
 ## Para rodar o projeto 
 
-<p>
-  Clonar o repositório da aplicação com o comando a seguir:
-</p>
+
+#### Clonar o repositório da aplicação com o comando a seguir:
+
 
 ```sh
-  git clone https://github.com/AdrianoVolter/Pharmacy_Central_System_-PCS-.git
+git clone https://github.com/AdrianoVolter/Pharmacy_Central_System_-PCS-.git
 ```
 ***
 
-<p>
-  Intalaçao das dependências, comando a seguir:
-</p>
+
+#### Intalaçao das dependências, comando a seguir:
+
 
 ```sh
 npm install
@@ -110,6 +108,9 @@ Para melhorar a api , pretendo adicionar mais funcionalidades , como por exemplo
 <li>Adicionar criptografia de senha , para que a senha do usuário não fique exposta no banco de dados.
 
 <li>Adicionar mais validações , para que o usuário não possa cadastrar dados inválidos no banco de dados.
+<li>Reultilizar o código , para que não fique repetitivo.
+Exemplo: buscar usuario , se usuario criou o medicamento ,crio ou e dono do deposito.
+
 
 ### Aplicativos utilizados para desenvolver o projeto
 
