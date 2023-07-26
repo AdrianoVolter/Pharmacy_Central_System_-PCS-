@@ -53,7 +53,28 @@
 
 ![Imagem do Projeto](assets/Captura%20de%20tela%20de%202023-07-20%2022-17-39.png)
 
+<p>Tabela Usuarios:
 
+Representa os dados dos usuários no sistema.
+Possui um relacionamento de um para muitos com o modelo Deposito, onde um usuário pode ter vários depósitos associados a ele.
+
+<p>Tabela Depositos:
+
+Representa os dados de depósitos onde os medicamentos são armazenados.
+Possui um relacionamento de muitos para muitos com o modelo Usuario, permitindo que vários usuários estejam associados a um depósito.
+Possui um relacionamento de muitos para muitos com o modelo Medicamentos, permitindo que vários medicamentos estejam associados a um depósito.
+
+<p>Tabela Medicamentos:
+
+Representa os dados de medicamentos no sistema.
+Possui um relacionamento de muitos para muitos com o modelo Deposito, permitindo que um medicamento esteja associado a vários depósitos.
+
+<p>Tabela MedicamentosDepositos:
+
+Representa o relacionamento entre os modelos Medicamentos e Deposito.
+Facilita os relacionamentos muitos para muitos entre medicamentos e depósitos, permitindo a associação de medicamentos com locais específicos de depósito.
+
+<p>É um sistema de gerenciamento farmacêutico que permite aos usuários administrar depósitos, medicamentos armazenados nesses depósitos e contas de usuário. Ele permite que os usuários associem medicamentos a depósitos específicos e recuperem dados com base em vários critérios. O projeto foi projetado para lidar com operações CRUD (Criar, Ler, Atualizar, Excluir) para essas entidades e gerenciar os relacionamentos entre elas usando as associações do Sequelize.
 
 ## Para rodar o projeto 
 
@@ -71,7 +92,7 @@
 </p>
 
 ```sh
-  npm install
+npm install
 ```
 ***
 
@@ -96,13 +117,18 @@ npx sequelize-cli db:migrate
 ## Melhorias futuras para api 
 
 Para melhorar a api , pretendo adicionar mais funcionalidades , como por exemplo :
-<li>Adicionar mais tabelas no banco de dados , como por exemplo a tabela de medicamentos , que vai ser relacionada com a tabela de depósitos.
-<li>Adicionar mais rotas , como por exemplo a rota de medicamentos , que vai ser relacionada com a rota de depósitos. 
-<li>Adicionar mais funcionalidades , como por exemplo a funcionalidade de listar medicamentos , que vai ser relacionada com a funcionalidade de listar depósitos.
-<li>Adicionar mais validações , como por exemplo a validação de medicamentos , que vai ser relacionada com a validação de depósitos.
+<li>Adicionar mais tabelas no banco de dados , como por exemplo a tabela de laboratorios , que vai ser relacionada com a tabela de medicamentos.
+
+<li>Adicionar mais rotas , como por exemplo a rota especificas para usuários e suas funcionalidades .
+
+<li>Adicionar criptografia de senha , para que a senha do usuário não fique exposta no banco de dados.
+
+<li>Adicionar mais validações , para que o usuário não possa cadastrar dados inválidos no banco de dados.
+
 ### Adriano Jose Volter
 
 #### Link do trello [Click aqui !](https://trello.com/b/UaxE96it/pharmacy-central-system-pcs-modulo-2-projeto-avaliativo)
+
 #### Link do repositório [Click aqui !](https://github.com/AdrianoVolter/Pharmacy_Central_System_-PCS-)
 
 #### Meu perfil do GitHub  [ Click aqui !](https://github.com/AdrianoVolter)
