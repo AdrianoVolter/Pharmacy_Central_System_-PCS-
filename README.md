@@ -1,14 +1,13 @@
-# Pharmacy Central System (PCS)
-***
+# Pharmacy Central System (PCS) 
 ## Gerenciamento de depósitos e medicamentos Projeto avaliativo , modulo 2 back-end 
-
-
+ 
+ ![GitHub commits]( https://img.shields.io/github/commit-activity/m/AdrianoVolter/Pharmacy_Central_System_-PCS-?style=plastic) ![GitHub relesase]( https://img.shields.io/github/v/release/AdrianoVolter/Pharmacy_Central_System_-PCS-?style=plastic) 
 <p>
   Esse projeto tem como objetivo criar o backend do sistema Pharmacy Central System, a API Pharmacy Central System (PCS), para gerenciar usuários, depósitos e medicamentos , recebendo dados de requisição e inserindo-os no banco de dados postgres com nome de pcsbd e retornando dados necessários. 
   Nessa API podemos:
-   <li>Cadastar usuários, fazer login, alterar dados. 
-   <li>Cadastrar depósitos alterar dados , listar depósitos, deletar depósitos.
-   <li>Cadastrar medicamentos , listar , deletar .
+   <li>Cadastrar usuários, fazer login, alterar dados. 
+   <li>Cadastrar depósitos, alterar dados , listar depósitos, deletar depósitos.
+   <li>Cadastrar medicamentos em um ou mais depósitos, listar ,alterar e deletar.
 </p>
 
 
@@ -19,21 +18,6 @@
     <img src="https://skillicons.dev/icons?i=nodejs,express,postgres,sequelize,javascript,git,github,vscode" />
   </a>
 </p>
-<ol>
-<li>Node.js: Plataforma de desenvolvimento que permite executar código JavaScript no servidor e criar aplicações web escaláveis.
-
-<li>Express: Framework web para Node.js que simplifica a criação de APIs e aplicações web, facilitando o tratamento de rotas, middlewares e requisições HTTP.
-
-<li>PostgreSQL: Sistema Gerenciador de Banco de Dados Relacional (SGBD) utilizado para armazenar os dados do projeto, como informações de usuários, depósitos e medicamentos.
-
-<li>Sequelize: ORM (Object-Relational Mapping) que facilita a interação com o banco de dados PostgreSQL, permitindo manipular dados usando objetos JavaScript.
-
-<li>JavaScript (JS): Linguagem de programação utilizada tanto no lado do cliente (navegador) quanto no lado do servidor (Node.js) para implementar a lógica da aplicação.
-
-<li>Git e GitHub: Sistema de controle de versão (Git) usado para rastrear e gerenciar alterações no código-fonte, e plataforma de hospedagem de repositórios (GitHub) utilizada para armazenar e compartilhar o código do projeto.
-
-<li>Visual Studio Code (VSCode): Um editor de código-fonte altamente popular e extensível que é frequentemente usado para desenvolvimento em Node.js e outras tecnologias web.
-</ol>
 
 ***
 ## Dependências usando Npm
@@ -113,7 +97,6 @@ npm start
 npx sequelize-cli db:migrate
 ```
 
-
 ## Melhorias futuras para api 
 
 Para melhorar a api , pretendo adicionar mais funcionalidades , como por exemplo :
@@ -125,7 +108,22 @@ Para melhorar a api , pretendo adicionar mais funcionalidades , como por exemplo
 
 <li>Adicionar mais validações , para que o usuário não possa cadastrar dados inválidos no banco de dados.
 
-### Adriano Jose Volter
+### Aplicativos utilizados para desenvolver o projeto
+
+<li>Visual Studio Code
+  
+  [![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-IDE-blue)](https://code.visualstudio.com/)
+
+<li>Thunder Client
+
+[![Thunder Client](https://img.shields.io/badge/Thunder%20Client-REST%20Client-orange)](https://www.thunderclient.io/)
+
+<li>DBeaver
+
+[![DBeaver](https://img.shields.io/badge/DBeaver-IDE%20para%20banco%20de%20dados-blue)](https://dbeaver.io/)
+
+
+### Feito Por Adriano Jose Volter
 
 #### Link do trello [Click aqui !](https://trello.com/b/UaxE96it/pharmacy-central-system-pcs-modulo-2-projeto-avaliativo)
 
@@ -133,3 +131,12 @@ Para melhorar a api , pretendo adicionar mais funcionalidades , como por exemplo
 
 #### Meu perfil do GitHub  [ Click aqui !](https://github.com/AdrianoVolter)
 ***
+
+## FONTES DE PESQUISA
+<li>https://chat.openai.com/
+<li>https://www.phind.com/
+<li>https://expressjs.com/pt-br/
+<li>https://sequelize.org/
+<li>https://www.npmjs.com/package
+<li>https://jwt.io/
+
