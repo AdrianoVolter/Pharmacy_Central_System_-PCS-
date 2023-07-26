@@ -137,7 +137,7 @@ Para melhorar a api , pretendo adicionar mais funcionalidades , como por exemplo
 
 #### Meu perfil do GitHub  [ Click aqui !](https://github.com/AdrianoVolter)
 ***
-### Professores responsáveis pelo projeto:
+### Professores responsáveis:
 
 #### [Rawan.H](https://github.com/Hawangledt) 
 #### [Pedro Henrique B. da Silva](https://github.com/pedrohbsilva) 
