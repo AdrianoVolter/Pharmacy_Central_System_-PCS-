@@ -108,6 +108,9 @@ Para melhorar a api , pretendo adicionar mais funcionalidades , como por exemplo
 <li>Adicionar criptografia de senha , para que a senha do usuário não fique exposta no banco de dados.
 
 <li>Adicionar mais validações , para que o usuário não possa cadastrar dados inválidos no banco de dados.
+<li>Reultilizar o código , para que não fique repetitivo.
+Exemplo: buscar usuario , se usuario criou o medicamento ,crio ou e dono do deposito.
+
 
 ### Aplicativos utilizados para desenvolver o projeto
 
