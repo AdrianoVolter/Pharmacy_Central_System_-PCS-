@@ -1,38 +1,38 @@
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('depositos_usuarios', { 
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable("depositos_usuarios", {
       id: {
-        type:Sequelize.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false,
-        autoIncrement:true,
-        primaryKey: true
+        autoIncrement: true,
+        primaryKey: true,
       },
-      id_usuarios:{
-        type:Sequelize.INTEGER,
-        references:{
-          model:{
-            tableName:'usuarios'
+      id_usuarios: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: "usuarios",
           },
-          key:'id'
+          key: "id",
         },
-        onUpdate: 'CASCADE',
-        onDelete:'CASCADE',
-        allowNull:false
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+        allowNull: false,
       },
-      id_depositos:{
-        type:Sequelize.INTEGER,
-        references:{
-          model:{
-            tableName:'depositos'
+      id_depositos: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: "depositos",
           },
-          key:'id'
+          key: "id",
         },
-        onUpdate: 'CASCADE',
-        onDelete:'CASCADE',
-        allowNull:false
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -46,12 +46,10 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: true,
       },
-     });
-     
+    });
   },
 
-  async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('depositos_usuarios');
-     
-  }
+  async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable("depositos_usuarios");
+  },
 };

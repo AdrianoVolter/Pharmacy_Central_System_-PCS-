@@ -1,363 +1,385 @@
-const Medicamentos = require('../models/Medicamentos');
-const MedicamentosDepositos = require('../models/MedicamentosDepositos');
-const DepositoUsuarios = require('../models/DepositosUsuarios');
-const Depositos = require('../models/Depositos');
+const Medicamentos = require("../models/Medicamentos");
+const MedicamentosDepositos = require("../models/MedicamentosDepositos");
+const DepositoUsuarios = require("../models/DepositosUsuarios");
+const Depositos = require("../models/Depositos");
 
 module.exports = {
-    async cadastroMedicamento(req, res) {
-        try {
-            const {
-                nome_medicamento,
-                nome_laboratorio,
-                descricao,
-                dosagem,
-                unidade_dosagem,
-                tipo_medicamento,
-                preco,
-                quantidade,
-                id_depositos
-            } = req.body;
-    
-            const id_usuarios = req.usuario.id;
-    
-            const depositoUsuario = await DepositoUsuarios.findAll({
-                where: {
-                    id_usuarios: id_usuarios,
-                    id_depositos: id_depositos
-                }
-            });
-           
-            if (!depositoUsuario ||depositoUsuario.length == 0) {
-                return res.status(400).send({ error: 'Usuário não possui depósito associado ou nao é o usuário do depósito!' });
-            }
+  async cadastroMedicamento(req, res) {
+    try {
+      const {
+        nome_medicamento,
+        nome_laboratorio,
+        descricao,
+        dosagem,
+        unidade_dosagem,
+        tipo_medicamento,
+        preco,
+        quantidade,
+        id_depositos,
+      } = req.body;
 
-            const deposito = await Depositos.findOne({
-                where: {
-                    id: id_depositos
-                }
-            });
-    
-            console.log("Deposito encontrado:", deposito); // Adicionando o log
-    
-            if (!deposito) {
-                return res.status(400).send({ error: 'Depósito com o ID fornecido não existe!' });
-            }
-    
-            let medicamento = await Medicamentos.findOne({
-                where: {
-                    nome_medicamento,
-                    nome_laboratorio
-                }
-            });
-    
-            if (!medicamento) {
-                medicamento = await Medicamentos.create({
-                    nome_medicamento,
-                    nome_laboratorio,
-                    descricao,
-                    dosagem,
-                    unidade_dosagem,
-                    tipo_medicamento
-                });
-            }
-    
-            const medicamentoDeposito = await MedicamentosDepositos.findOne({
-                where: {
-                    id_medicamentos: medicamento.id,
-                    id_depositos: id_depositos
-                }
-              
-            });
-    
-            if (medicamentoDeposito) {
-                return res.status(409).send({ error: 'Medicamento já cadastrado neste depósito!' });
-            }
-    
-            await MedicamentosDepositos.create({
-                id_medicamentos: medicamento.id,
-                id_depositos: id_depositos,
-                preco: preco,
-                quantidade: quantidade,
-                descricao: descricao
-            });
-    
-            return res.status(201).send({
-                Message: "Medicamento cadastrado!",
-                identificador: medicamento.id,
-                nomeMedicamento: medicamento.nome_medicamento,
-                medicamento: {
-                    id: medicamento.id,
-                    nome_medicamento: medicamento.nome_medicamento,
-                    nome_laboratorio: medicamento.nome_laboratorio,
-                    dosagem: medicamento.dosagem,
-                    unidade_dosagem: medicamento.unidade_dosagem,
-                    tipo_medicamento: medicamento.tipo_medicamento,
-                    preco,
-                    quantidade,
-                    descricao
-                },
-                
-               usuarioResponsavel: {
-                usuario: {
-                    nome: req.usuario.nome
-                },
-                deposito: {
-                    id: id_depositos
-                },
-            }
-            });
-    
-        } catch (err) {
-            return res.status(500).send({
-                err: err.message,
-                cause: 'Erro no servidor!'
-            });
-        }
-    }, 
+      const id_usuarios = req.usuario.id;
 
-    async  atualizarMedicamento(req, res) {
-        try {
-            const { id } = req.params;
-            const { preco, quantidade, descricao, id_depositos } = req.body; // Adicione id_depositos para atualizar o depósito selecionado
-            const id_usuarios = req.usuario.id;
-           
-    
-            const depositoUsuario = await DepositoUsuarios.findOne({
-                where: {
-                    id_usuarios: id_usuarios,
-                    id_depositos: id_depositos
-                }
-            });
-    
-            if (!depositoUsuario) {
-                return res.status(400).send({ error: 'Usuário não possui depósito associado a esse id_depositos!' });
-            }
-    
-            const medicamento = await Medicamentos.findOne({
-                where: {
-                    id: id
-                }
-            });
-    
-            if (!medicamento) {
-                return res.status(404).send({ error: 'Medicamento não encontrado!' });
-            }
-    
-            const medicamentoDeposito = await MedicamentosDepositos.findOne({
-                where: {
-                    id_medicamentos: medicamento.id,
-                    id_depositos: id_depositos
-                }
-            });
-    
-            if (!medicamentoDeposito) {
-                return res.status(404).send({ error: 'Medicamento não encontrado no depósito!' });
-            }
-    
-            await medicamentoDeposito.update({
-                preco: preco,
-                quantidade: quantidade,
-                descricao: descricao,
+      const depositoUsuario = await DepositoUsuarios.findAll({
+        where: {
+          id_usuarios: id_usuarios,
+          id_depositos: id_depositos,
+        },
+      });
 
-            });
-    
-            return res.status(200).send({
-                Message: "Medicamento atualizado!",
-                identificador: medicamento.id,
-                nomeMedicamento: medicamento.nome_medicamento,
-                preco,
-                quantidade,
-                descricao,
-                usuarioResponsavel: {
-                    usuario: {
-                        nome: req.usuario.nome
-                    },
-                    deposito: {
-                        id: id_depositos
-                    },
-                }
-            });
-    
-        } catch (err) {
-            return res.status(500).send({
-                err: err.message,
-                cause: 'Erro no servidor!'
-            });
-        }
-    },
-//listar medicamentos por query params Contolado ou Não Controlado
-    async listarMedicamentos(req, res) {
-        try {
+      if (!depositoUsuario || depositoUsuario.length == 0) {
+        return res
+          .status(400)
+          .send({
+            error:
+              "Usuário não possui depósito associado ou nao é o usuário do depósito!",
+          });
+      }
 
-            const valorfunction = function (valor) { 
-                if (valor == 'controlado') {
-                    return 'Controlado';
-                } else if (valor == 'naocontrolado') {
-                    return 'Não Controlado';
-                } else {
-                    return 'Controlado ou Não Controlado';
-                }
-            }
+      const deposito = await Depositos.findOne({
+        where: {
+          id: id_depositos,
+        },
+      });
 
-            const tipo_medicamento = valorfunction(req.query.tipo_medicamento);
+      console.log("Deposito encontrado:", deposito); // Adicionando o log
 
-            if (req.query.tipo_medicamento !== 'controlado' && req.query.tipo_medicamento !== 'naocontrolado' && req.query.tipo_medicamento !== undefined) {
-                return res.status(400).send({ error: 'Tipo de medicamento inválido , digite controlado ou naocontrolado!' });
-            }
-            if (req.query.tipo_medicamento == undefined) {
+      if (!deposito) {
+        return res
+          .status(400)
+          .send({ error: "Depósito com o ID fornecido não existe!" });
+      }
 
+      let medicamento = await Medicamentos.findOne({
+        where: {
+          nome_medicamento,
+          nome_laboratorio,
+        },
+      });
 
-                const medicamentos = await Medicamentos.findAll();
-                return res.status(200).send({
-                    medicamentos: medicamentos.map(medicamentos => {
-                        return {
-                            id: medicamentos.id,
-                            nome_medicamento: medicamentos.nome_medicamento,
-                            nome_laboratorio: medicamentos.nome_laboratorio,
-                            dosagem: medicamentos.dosagem,
-                            unidade_dosagem: medicamentos.unidade_dosagem,
-                            tipo_medicamento: medicamentos.tipo_medicamento,
-                            preco: medicamentos.preco,
-                            quantidade: medicamentos.quantidade,
-                            descricao: medicamentos.descricao,
-                        }
-                    })
-                });
-            } else
-            if (!tipo_medicamento) {
-                return res.status(400).send({ error: 'Tipo de medicamento não informado!' });
-            }
+      if (!medicamento) {
+        medicamento = await Medicamentos.create({
+          nome_medicamento,
+          nome_laboratorio,
+          descricao,
+          dosagem,
+          unidade_dosagem,
+          tipo_medicamento,
+        });
+      }
 
-            const medicamentos = await Medicamentos.findAll({
-                where: {
-                    tipo_medicamento: tipo_medicamento
-                }
-            });
-            return res.status(200).send({
-                medicamentos: medicamentos.map(medicamentos => {
-                    return {
-                    id: medicamentos.id,
-                    nome_medicamento: medicamentos.nome_medicamento,
-                    nome_laboratorio: medicamentos.nome_laboratorio,
-                    dosagem: medicamentos.dosagem,
-                    unidade_dosagem: medicamentos.unidade_dosagem,
-                    tipo_medicamento: medicamentos.tipo_medicamento,
-                    preco: medicamentos.preco,
-                    quantidade: medicamentos.quantidade,
-                    descricao: medicamentos.descricao,
-                }
-                })
-            });
-        } catch (err) {
-            return res.status(500).send({
-                err: err.message,
-                cause: 'Erro no servidor!'
-            });
-        }
-    },
-//listar pelo id do medicamento
-    async listarMedicamento(req, res) {
-        try {
-            const { id } = req.params;
-    
-            const medicamento = await Medicamentos.findOne({
-                where: {
-                    id: id
-                }
-            });
-    
-            if (!medicamento) {
-                return res.status(404).send({ error: 'Medicamento não encontrado!' });
-            }
-            const medicamentosDepositos = await MedicamentosDepositos.findAll({
-                where: {
-                    id_medicamentos: id
-                },
-                attributes: ['id_depositos'] 
-            });
-    
-            // Extrai os IDs dos depósitos da consulta anterior
-            const depositoIds = medicamentosDepositos.map((medicamentoDeposito) => medicamentoDeposito.id_depositos);
-    
-            return res.status(200).send({
-                medicamento: {
-                    id: medicamento.id,
-                    nome_medicamento: medicamento.nome_medicamento,
-                    nome_laboratorio: medicamento.nome_laboratorio,
-                    dosagem: medicamento.dosagem,
-                    unidade_dosagem: medicamento.unidade_dosagem,
-                    tipo_medicamento: medicamento.tipo_medicamento,
-                },
-                depositoIds: depositoIds 
-            });
-        } catch (err) {            
-            return res.status(500).send({
-                err: err.message,
-                cause: 'Erro no servidor!'
-            });
-        }
-    },
-    async excluirMedicamento(req, res) {
-        try {
-            
-            const { id } = req.params;
-            const id_usuarios = req.usuario.id;
-            const { id_depositos } = req.body;
+      const medicamentoDeposito = await MedicamentosDepositos.findOne({
+        where: {
+          id_medicamentos: medicamento.id,
+          id_depositos: id_depositos,
+        },
+      });
 
-            const depositoUsuario = await DepositoUsuarios.findOne({
-                where: {
-                    id_usuarios: id_usuarios,
-                    id_depositos: id_depositos
-                }
-            });
-           
-            if (!depositoUsuario) {
-                return res.status(400).send({ error: 'Usuário não possui depósito associado a esse id_depositos!' });
-            }
-            
-            const deposito = await Depositos.findOne({
-                where: {
-                    id: id_depositos
-                }
-            });
+      if (medicamentoDeposito) {
+        return res
+          .status(409)
+          .send({ error: "Medicamento já cadastrado neste depósito!" });
+      }
 
-            if (!deposito) {
-                return res.status(400).send({ error: 'Depósito com o ID fornecido não existe!' });
-            }
-            const medicamento = await Medicamentos.findOne({
-                where: {
-                    id: id
-                }
-            });
-    
-            if (!medicamento) {
-                return res.status(404).send({ error: 'Medicamento não encontrado!' });
-            }
-    
-            const medicamentoDeposito = await MedicamentosDepositos.findOne({
-                where: {
-                    id_medicamentos: medicamento.id,
-                    id_depositos: id_depositos
-                }
-            });
+      await MedicamentosDepositos.create({
+        id_medicamentos: medicamento.id,
+        id_depositos: id_depositos,
+        preco: preco,
+        quantidade: quantidade,
+        descricao: descricao,
+      });
 
-            if (!medicamentoDeposito) {
-                return res.status(404).send({ error: 'Medicamento não encontrado no depósito!' });
-            }
-         
-            await medicamentoDeposito.destroy();
-            await medicamento.destroy();
-    
-            return res.status(204).send({
-               
-            });
-    
-        } catch (err) {           
-            return res.status(500).send({
-                err: err.message,
-                cause: 'Erro no servidor!'
-            });
-        }
+      return res.status(201).send({
+        Message: "Medicamento cadastrado!",
+        identificador: medicamento.id,
+        nomeMedicamento: medicamento.nome_medicamento,
+        medicamento: {
+          id: medicamento.id,
+          nome_medicamento: medicamento.nome_medicamento,
+          nome_laboratorio: medicamento.nome_laboratorio,
+          dosagem: medicamento.dosagem,
+          unidade_dosagem: medicamento.unidade_dosagem,
+          tipo_medicamento: medicamento.tipo_medicamento,
+          preco,
+          quantidade,
+          descricao,
+        },
+
+        usuarioResponsavel: {
+          usuario: {
+            nome: req.usuario.nome,
+          },
+          deposito: {
+            id: id_depositos,
+          },
+        },
+      });
+    } catch (err) {
+      return res.status(500).send({
+        err: err.message,
+        cause: "Erro no servidor!",
+      });
     }
-}
+  },
 
+  async atualizarMedicamento(req, res) {
+    try {
+      const { id } = req.params;
+      const { preco, quantidade, descricao, id_depositos } = req.body; // Adicione id_depositos para atualizar o depósito selecionado
+      const id_usuarios = req.usuario.id;
+
+      const depositoUsuario = await DepositoUsuarios.findOne({
+        where: {
+          id_usuarios: id_usuarios,
+          id_depositos: id_depositos,
+        },
+      });
+
+      if (!depositoUsuario) {
+        return res
+          .status(400)
+          .send({
+            error: "Usuário não possui depósito associado a esse id_depositos!",
+          });
+      }
+
+      const medicamento = await Medicamentos.findOne({
+        where: {
+          id: id,
+        },
+      });
+
+      if (!medicamento) {
+        return res.status(404).send({ error: "Medicamento não encontrado!" });
+      }
+
+      const medicamentoDeposito = await MedicamentosDepositos.findOne({
+        where: {
+          id_medicamentos: medicamento.id,
+          id_depositos: id_depositos,
+        },
+      });
+
+      if (!medicamentoDeposito) {
+        return res
+          .status(404)
+          .send({ error: "Medicamento não encontrado no depósito!" });
+      }
+
+      await medicamentoDeposito.update({
+        preco: preco,
+        quantidade: quantidade,
+        descricao: descricao,
+      });
+
+      return res.status(200).send({
+        Message: "Medicamento atualizado!",
+        identificador: medicamento.id,
+        nomeMedicamento: medicamento.nome_medicamento,
+        preco,
+        quantidade,
+        descricao,
+        usuarioResponsavel: {
+          usuario: {
+            nome: req.usuario.nome,
+          },
+          deposito: {
+            id: id_depositos,
+          },
+        },
+      });
+    } catch (err) {
+      return res.status(500).send({
+        err: err.message,
+        cause: "Erro no servidor!",
+      });
+    }
+  },
+  //listar medicamentos por query params Contolado ou Não Controlado
+  async listarMedicamentos(req, res) {
+    try {
+      const valorfunction = function (valor) {
+        if (valor == "controlado") {
+          return "Controlado";
+        } else if (valor == "naocontrolado") {
+          return "Não Controlado";
+        } else {
+          return "Controlado ou Não Controlado";
+        }
+      };
+
+      const tipo_medicamento = valorfunction(req.query.tipo_medicamento);
+
+      if (
+        req.query.tipo_medicamento !== "controlado" &&
+        req.query.tipo_medicamento !== "naocontrolado" &&
+        req.query.tipo_medicamento !== undefined
+      ) {
+        return res
+          .status(400)
+          .send({
+            error:
+              "Tipo de medicamento inválido , digite controlado ou naocontrolado!",
+          });
+      }
+      if (req.query.tipo_medicamento == undefined) {
+        const medicamentos = await Medicamentos.findAll();
+        return res.status(200).send({
+          medicamentos: medicamentos.map((medicamentos) => {
+            return {
+              id: medicamentos.id,
+              nome_medicamento: medicamentos.nome_medicamento,
+              nome_laboratorio: medicamentos.nome_laboratorio,
+              dosagem: medicamentos.dosagem,
+              unidade_dosagem: medicamentos.unidade_dosagem,
+              tipo_medicamento: medicamentos.tipo_medicamento,
+              preco: medicamentos.preco,
+              quantidade: medicamentos.quantidade,
+              descricao: medicamentos.descricao,
+            };
+          }),
+        });
+      } else if (!tipo_medicamento) {
+        return res
+          .status(400)
+          .send({ error: "Tipo de medicamento não informado!" });
+      }
+
+      const medicamentos = await Medicamentos.findAll({
+        where: {
+          tipo_medicamento: tipo_medicamento,
+        },
+      });
+      return res.status(200).send({
+        medicamentos: medicamentos.map((medicamentos) => {
+          return {
+            id: medicamentos.id,
+            nome_medicamento: medicamentos.nome_medicamento,
+            nome_laboratorio: medicamentos.nome_laboratorio,
+            dosagem: medicamentos.dosagem,
+            unidade_dosagem: medicamentos.unidade_dosagem,
+            tipo_medicamento: medicamentos.tipo_medicamento,
+            preco: medicamentos.preco,
+            quantidade: medicamentos.quantidade,
+            descricao: medicamentos.descricao,
+          };
+        }),
+      });
+    } catch (err) {
+      return res.status(500).send({
+        err: err.message,
+        cause: "Erro no servidor!",
+      });
+    }
+  },
+  //listar pelo id do medicamento
+  async listarMedicamento(req, res) {
+    try {
+      const { id } = req.params;
+
+      const medicamento = await Medicamentos.findOne({
+        where: {
+          id: id,
+        },
+      });
+
+      if (!medicamento) {
+        return res.status(404).send({ error: "Medicamento não encontrado!" });
+      }
+      const medicamentosDepositos = await MedicamentosDepositos.findAll({
+        where: {
+          id_medicamentos: id,
+        },
+        attributes: ["id_depositos"],
+      });
+
+      // Extrai os IDs dos depósitos da consulta anterior
+      const depositoIds = medicamentosDepositos.map(
+        (medicamentoDeposito) => medicamentoDeposito.id_depositos
+      );
+
+      return res.status(200).send({
+        medicamento: {
+          id: medicamento.id,
+          nome_medicamento: medicamento.nome_medicamento,
+          nome_laboratorio: medicamento.nome_laboratorio,
+          dosagem: medicamento.dosagem,
+          unidade_dosagem: medicamento.unidade_dosagem,
+          tipo_medicamento: medicamento.tipo_medicamento,
+        },
+        depositoIds: depositoIds,
+      });
+    } catch (err) {
+      return res.status(500).send({
+        err: err.message,
+        cause: "Erro no servidor!",
+      });
+    }
+  },
+  async excluirMedicamento(req, res) {
+    try {
+      const { id } = req.params;
+      const id_usuarios = req.usuario.id;
+      const { id_depositos } = req.body;
+
+      const depositoUsuario = await DepositoUsuarios.findOne({
+        where: {
+          id_usuarios: id_usuarios,
+          id_depositos: id_depositos,
+        },
+      });
+
+      if (!depositoUsuario) {
+        return res
+          .status(400)
+          .send({
+            error: "Usuário não possui depósito associado a esse id_depositos!",
+          });
+      }
+
+      const deposito = await Depositos.findOne({
+        where: {
+          id: id_depositos,
+        },
+      });
+
+      if (!deposito) {
+        return res
+          .status(400)
+          .send({ error: "Depósito com o ID fornecido não existe!" });
+      }
+      const medicamento = await Medicamentos.findOne({
+        where: {
+          id: id,
+        },
+      });
+
+      if (!medicamento) {
+        return res.status(404).send({ error: "Medicamento não encontrado!" });
+      }
+
+      const medicamentoDeposito = await MedicamentosDepositos.findOne({
+        where: {
+          id_medicamentos: medicamento.id,
+          id_depositos: id_depositos,
+        },
+      });
+
+      if (!medicamentoDeposito) {
+        return res
+          .status(404)
+          .send({ error: "Medicamento não encontrado no depósito!" });
+      }
+
+      await medicamentoDeposito.destroy();
+      await medicamento.destroy();
+
+      return res.status(204).send({});
+    } catch (err) {
+      return res.status(500).send({
+        err: err.message,
+        cause: "Erro no servidor!",
+      });
+    }
+  },
+};

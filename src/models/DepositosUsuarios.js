@@ -1,47 +1,56 @@
-const {INTEGER, DATE} = require('sequelize')
-const  connection  = require('../database/connection')
-const Depositos = require('./Depositos')
-const Usuarios = require('./Usuarios')
+const { INTEGER, DATE } = require("sequelize");
+const connection = require("../database/connection");
+const Depositos = require("./Depositos");
+const Usuarios = require("./Usuarios");
 
-const DepositosUsuarios = connection.define('depositos_usuarios', {
-    id_depositos:{
-        type:INTEGER,
-        references:{
-          model:{
-            tableName:'depositos'
-          },
-          key:'id'
+const DepositosUsuarios = connection.define(
+  "depositos_usuarios",
+  {
+    id_depositos: {
+      type: INTEGER,
+      references: {
+        model: {
+          tableName: "depositos",
         },
-        allowNull:false
+        key: "id",
       },
-    id_usuarios:{
-        type:INTEGER,
-        references:{
-          model:{
-            tableName:'usuarios'
-          },
-          key:'id'
+      allowNull: false,
+    },
+    id_usuarios: {
+      type: INTEGER,
+      references: {
+        model: {
+          tableName: "usuarios",
         },
-        allowNull:false
+        key: "id",
+      },
+      allowNull: false,
     },
     createdAt: {
-        type: DATE,
-        allowNull: false,
+      type: DATE,
+      allowNull: false,
     },
     updatedAt: {
-        type: DATE,
-        allowNull: false,
+      type: DATE,
+      allowNull: false,
     },
     deleted_at: {
-        type: DATE,
-        allowNull: true,
-    }
-}, {
+      type: DATE,
+      allowNull: true,
+    },
+  },
+  {
     paranoid: true,
   }
-)
+);
 
-  Usuarios.belongsToMany(Depositos, { through: DepositosUsuarios, foreignKey: 'id_usuarios' })
-  Depositos.belongsToMany(Usuarios, { through: DepositosUsuarios, foreignKey: 'id_depositos' })
+Usuarios.belongsToMany(Depositos, {
+  through: DepositosUsuarios,
+  foreignKey: "id_usuarios",
+});
+Depositos.belongsToMany(Usuarios, {
+  through: DepositosUsuarios,
+  foreignKey: "id_depositos",
+});
 
 module.exports = DepositosUsuarios;

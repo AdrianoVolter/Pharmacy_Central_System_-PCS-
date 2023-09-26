@@ -1,50 +1,50 @@
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('medicamentos', { 
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable("medicamentos", {
       id: {
-        type:Sequelize.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false,
-        autoIncrement:true,
-        primaryKey: true
+        autoIncrement: true,
+        primaryKey: true,
       },
-      nome_medicamento:{
-        type:Sequelize.STRING,
-        allowNull:false
+      nome_medicamento: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
-      nome_laboratorio:{
-        type:Sequelize.STRING,
-        allowNull:false,
+      nome_laboratorio: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
-      descricao:{
-        type:Sequelize.STRING,
-        allowNull:true
+      descricao: {
+        type: Sequelize.STRING,
+        allowNull: true,
       },
-      dosagem:{
-        type:Sequelize.INTEGER,
-        allowNull:false,
+      dosagem: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
-      unidade_dosagem:{
-        type:Sequelize.STRING, //OBS
-        allowNull:false,
+      unidade_dosagem: {
+        type: Sequelize.STRING, //OBS
+        allowNull: false,
       },
-      tipo_medicamento:{
-        type:Sequelize.ENUM('Controlado', 'Não Controlado'),
-        allowNull:false
+      tipo_medicamento: {
+        type: Sequelize.ENUM("Controlado", "Não Controlado"),
+        allowNull: false,
       },
-      preco:{
-        type:Sequelize.INTEGER,
-        allowNull:false
+      preco: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
-      quantidade:{
-        type:Sequelize.INTEGER,
-        allowNull:false
+      quantidade: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
       },
       updated_at: {
         type: Sequelize.DATE,
@@ -52,14 +52,12 @@ module.exports = {
       },
       deleted_at: {
         type: Sequelize.DATE,
-        allowNull: true
+        allowNull: true,
       },
-     });
-     
+    });
   },
 
-  async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('medicamentos');
-     
-  }
+  async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable("medicamentos");
+  },
 };
