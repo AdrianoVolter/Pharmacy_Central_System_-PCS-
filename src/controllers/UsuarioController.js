@@ -31,12 +31,22 @@ module.exports = {
       }
 
       if (nome.length < 3 || sobrenome.length < 3) {
+        return res.status(400).send({
+          error: "O nome e o sobrenome devem ter no mínimo 3 caracteres!",
+        });
+      }
+
+      const dataNascimento = new Date(data_nascimento);
+      if (isNaN(dataNascimento.getTime())) {
         return res
           .status(400)
-          .send({
-            error: "O nome e o sobrenome devem ter no mínimo 3 caracteres!",
-          });
+          .send({ error: "A Data de Nascimento não é uma data válida." });
       }
+      const cpfSemPontos = cpf.replace(/[.-]/g, "");
+      if (cpfSemPontos.length !== 11) {
+        return res.status(400).send({ error: "O CPF deve ter 11 caracteres." });
+      }
+
       const usuario = await Usuario.create({
         nome,
         sobrenome,
@@ -106,32 +116,26 @@ module.exports = {
       });
       //verificar se o usuario esta atualizando o seu proprio usuario
       if (Number(id) !== Number(req.usuario.id)) {
-        return res
-          .status(403)
-          .send({
-            error: "Acesso negado! Você só pode atualizar seus próprios dados.",
-          });
+        return res.status(403).send({
+          error: "Acesso negado! Você só pode atualizar seus próprios dados.",
+        });
       }
       if (!usuario) {
         return res.status(404).send({ error: "Usuario não encontrado!" });
       } else {
         if (nome.length < 3 || sobrenome.length < 3) {
-          return res
-            .status(400)
-            .send({
-              error: "O nome e o sobrenome devem ter no mínimo 3 caracteres!",
-            });
+          return res.status(400).send({
+            error: "O nome e o sobrenome devem ter no mínimo 3 caracteres!",
+          });
         }
         await Usuario.update(
           { nome, sobrenome, genero, telefone },
           { where: { id: id } }
         );
-        return res
-          .status(200)
-          .send({
-            message: "Usuario atualizado com sucesso!",
-            usuario: { id, nome, sobrenome, genero, telefone },
-          }); //codigo 200 = ok , 204 não tem conteudo
+        return res.status(200).send({
+          message: "Usuario atualizado com sucesso!",
+          usuario: { id, nome, sobrenome, genero, telefone },
+        }); //codigo 200 = ok , 204 não tem conteudo
       }
     } catch (error) {
       return res.status(400).send({ error: error.message });
@@ -153,22 +157,18 @@ module.exports = {
 
       //verificar se o usuario esta atualizando o seu proprio usuario
       if (Number(id) !== Number(req.usuario.id)) {
-        return res
-          .status(403)
-          .send({
-            error: "Acesso negado! Você só pode atualizar seus próprios dados.",
-          });
+        return res.status(403).send({
+          error: "Acesso negado! Você só pode atualizar seus próprios dados.",
+        });
       }
       if (!usuario) {
         return res.status(404).send({ error: "Usuario não encontrado!" });
       } else {
         await Usuario.update({ status }, { where: { id: id } });
-        return res
-          .status(200)
-          .send({
-            message: "Status do usuario atualizado com sucesso!",
-            usuario: { id, status },
-          });
+        return res.status(200).send({
+          message: "Status do usuario atualizado com sucesso!",
+          usuario: { id, status },
+        });
       }
     } catch (error) {
       return res.status(400).send({ error: error.message });
@@ -206,22 +206,18 @@ module.exports = {
 
       //verificar se o usuario esta atualizando o seu proprio usuario
       if (Number(id) !== Number(req.usuario.id)) {
-        return res
-          .status(403)
-          .send({
-            error: "Acesso negado! Você só pode atualizar seus próprios dados.",
-          });
+        return res.status(403).send({
+          error: "Acesso negado! Você só pode atualizar seus próprios dados.",
+        });
       }
       if (!usuario) {
         return res.status(404).send({ error: "Usuario não encontrado!" });
       } else {
         await Usuario.update({ senha }, { where: { id: id } });
-        return res
-          .status(204)
-          .send({
-            message: "Senha do usuario atualizado com sucesso!",
-            usuario: { id, senha },
-          });
+        return res.status(204).send({
+          message: "Senha do usuario atualizado com sucesso!",
+          usuario: { id, senha },
+        });
       }
     } catch (error) {
       return res.status(400).send({ error: error.message });
